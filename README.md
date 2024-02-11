@@ -24,14 +24,12 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-!git clone https://github.com/ruili4UCSD/CSE151A_WIN24_GROUP.git
-from google.colab import files
-# Make directory named kaggle, copy kaggle.json file there, and change the permissions of the file.
-! mkdir ~/.kaggle
-! cp ./CSE151A_WIN24_GROUP/data/kaggle.json ~/.kaggle/
-! chmod 600 ~/.kaggle/kaggle.json
+! git clone https://github.com/ruili4UCSD/CSE151A_WIN24_GROUP.git
 
-# Download and unzip sign-language-mnist dataset into '/usr/local'
+from google.colab import files
+! mkdir ~/.kaggle
+! cp ./CSE151A_WIN24_GROUP/data/kaggle.json ~/.kaggle/  # please do not change kaggle.json path
+! chmod 600 ~/.kaggle/kaggle.json
 ! kaggle datasets download -d gzipchrist/leetcode-problem-dataset --path 'CSE151A_WIN24_GROUP/data/dataset/'
 ! unzip 'CSE151A_WIN24_GROUP/data/dataset/leetcode-problem-dataset.zip' -d "CSE151A_WIN24_GROUP/data/dataset/"
 ```
