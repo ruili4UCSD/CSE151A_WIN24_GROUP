@@ -16,6 +16,8 @@ Leetcode is one of the largest interview coding prep platforms on the internet, 
 
 ---
 
+[Link to milestone2 notebook](./ipynb/LeetcodeDataExploration.ipynb)
+
 ```python
 import pandas as pd
 import numpy as np
@@ -603,8 +605,8 @@ Given our goal is to predict the "difficulty" by a series of inputs, through the
 - "url": Same as above.
 - "similar_questions": Same as above.
 - "asked_by_faang":  This attributes just indicates whether the question was asked by faang or not. We thought it would be more useful to have “how many faang companies asked this question” instead of that for the prediction.
-- "companies": Some big companies might choose harder problems, we would transfer this column to numeric attributes "fanng_count" and "non_fanng_count" that can be used by model.
-- "related_topics": Although there might be a correlation between this attribute and difficulty (topics associated with obscure concepts might be harder), dealing with this attribute involves NLP.
+- (standlization) "companies": Some big companies might choose harder problems, we would transfer this column to numeric attributes "fanng_count" and "non_fanng_count" that can be used by model.
+- (standlization) "related_topics": There might be a correlation between this attribute and difficulty (topics associated with obscure concepts might be harder), since this is a String attributes, we need to standlization it.
 
 ### Data we need to standlization
 
@@ -613,8 +615,9 @@ We need to perform Data Transformation on the following attributes:
 - "difficulty": This is our target attribute (class), given that it is initialized as "Easy", "Medium", "Hard", we need to perform Categorical Feature Encoding on it.
 - "submissions": This attribute is number in string format,  we need to convert it into a number.
 - "accepted": This attribute is number in string format,  we need to convert it into a number.
-- "company_series" to "faang_count", As talked above, some big companies might choose harder problems, we would add a new column "faang" count how many famous companies ("Facebook", "Amazon", "Apple", "Netflix", "Google".) choosed this question.
-- "company_series" to "non_faang_count", same as above, but this is how many compainess does not choose this question.
+- "companies" standlized to "faang_count", As talked above, some big companies might choose harder problems, we would add a new column "faang" count how many famous companies ("Facebook", "Amazon", "Apple", "Netflix", "Google".) choosed this question.
+- "companies" standlized to "non_faang_count", same as above, but this is how many compainess does not choose this question.
+- "related topics": We will separate the terms in this attribute by comma, then one-hot encode them to fit the machine learning.
 
 ### Missing data and problems
 
