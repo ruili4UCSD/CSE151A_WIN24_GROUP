@@ -1337,11 +1337,6 @@ data
 - See the coorolation between difficulty and (acceptence rate, frequency?, submissions, topics, like to dislike)
 - All data visualizations
 
-## General (TODO NEED TO FINISH)
-- How many problems are of "XYZ topic are there"
-- How many easy, med hard topics are there
-
-
 ```python
 data.describe()
 ```
@@ -1620,7 +1615,6 @@ We have opted to remove the one hot encoded data in our pairplot as it takes muc
 
 
 ```python
-#TODO plot the data with the one hot encoding
 #with our pair plot we exclude the one hot encoding as it takes the pairplot forever to plot
 palette = ['#77dd77', '#aec6cf', '#ff6961']
 sns.pairplot(data.drop(related_topics, axis=1), hue='difficulty', palette=palette)
@@ -2011,7 +2005,7 @@ We now can now look at our corrolation matrix.
 
 
 ```python
-#TODO remove the drop once accepted and submissions are fixed
+# remove the drop once accepted and submissions are fixed
 dataplot = normalized_data
 
 plt.figure(figsize=(50, 50))
@@ -2473,7 +2467,6 @@ data
 
 
 ```python
-#TODO clean up columns they are currently in a wack order
 final_data = data.loc[:, relevant_feature_corr.columns]
 final_data
 ```
