@@ -10,7 +10,7 @@ This project aims to analyze and predict the difficulty levels of problems on Le
 
 The dataset comprises various attributes of LeetCode problems, such as acceptance rate, difficulty level, and tags related to data structures and algorithms. Our initial task involved cleaning the data, handling missing values, and encoding categorical features to prepare the dataset for analysis and modeling.
 
-[🔗 LeetCode Dataset](https://www.kaggle.com/datasets/gzipchrist/leetcode-problem-dataset/data)
+🔗 [LeetCode Dataset](https://www.kaggle.com/datasets/gzipchrist/leetcode-problem-dataset/data)
 
 ## Data Preprocessing
 
@@ -50,4 +50,4 @@ In the future, we plan to explore the following models:
 - **Decision Tree**: We aim to leverage the interpretability of Decision Trees which will allow us to visualize the decision-making process and understand the importance of different features in predicting problem difficulty.
 - **Neural Network**: Given the potential for high customization and optimization, we well implement a Neural Network to capture complex patterns in the data. We will experiment with different architectures, activation functions, and loss functions to optimize the model's performance.
 
-[🔗 Current Notebook](./ipynb/LeetcodeDataExploration.ipynb)
+🔗 [Current Notebook](./ipynb/LeetcodeDataExploration.ipynb)
