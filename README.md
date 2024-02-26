@@ -2017,13 +2017,13 @@ As we progress to subsequent models, we hope that we can achieve a better perfor
 
 ## Upcoming Models
 
-###**Decision Tree**
+### **Decision Tree**
 
 https://scikit-learn.org/stable/modules/tree.html
 
 Reason: We are interested in implementing a decision tree because we know that it can be used for multiclass classification problems, and the sklearn implementation specifically can handle these problems when the data are numeric. One of the benefits of this model is that it is referred to as a "white box". This is because the model is understandable, as compared to an obfuscated "black box" that results from using a more complicated model. A decision tree is referred to as a "white box" because the model can easily be visualed into a picture and its rules can be understood. The model makes choices of which route down the tree to take based on different threshold values. Therefore, we will be able to analyze the rules the model is using in order to better understand its performance. This will make apparent which features are most strongly predictive, and what values of those features make certain values of the target more likely.
 
-###**Neural Network**
+### **Neural Network**
 
 Reason: We are familiar with neural networks from class, and we know that they can be used to solve classification problems. For example, we used a neural network in HW2 to build a classifier for types of beans based on their attributes. We know how to start solving a multi-class classification problem using a neural net: for example, we're familiar with the different activation functions and loss functions we could use, and we understand structual details, like having as many units in the output layer as we have unique values in our target (in our case, 3 distinct difficulties). We are hopeful that a neural net will be a more successful model because of the hyperparameter tuning we will be able to do. There is a lot of experimentation to be done to optimize the model, so we are eager to attempt to achieve better results using this model.
 
