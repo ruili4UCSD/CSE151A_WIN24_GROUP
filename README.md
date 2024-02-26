@@ -1990,22 +1990,15 @@ We implemented the K-Nearest Neighbors algorithm as our initial model, chosen fo
 ## Training the K-Nearest Neighbors Model
 
 
-    We implemented the K-Nearest Neighbors algorithm as our initial model, chosen for its simplicity and effectiveness in multi-label classification tasks. 
+We implemented the K-Nearest Neighbors algorithm as our initial model, chosen for its simplicity and effectiveness in multi-label classification tasks. 
 
-    The best k value should be:  12.
+The best k value should be:  12.
 
-    Then we train the model in k=12.
+Then we train the model in k=12.
 
-    We deleted code part in READEME. For detailed training code, please check notebook.
+We deleted code part in READEME. For detailed training code, please check notebook.
 
-    🔗 [Current Notebook](./ipynb/LeetcodeDataExploration.ipynb)
-    
-
-
-
-
-<div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>KNeighborsClassifier(n_neighbors=12)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">KNeighborsClassifier</label><div class="sk-toggleable__content"><pre>KNeighborsClassifier(n_neighbors=12)</pre></div></div></div></div></div>
-
+🔗 [Current Notebook](./ipynb/LeetcodeDataExploration.ipynb)
 
 
 ## Evulation In Test Set (KNN)
