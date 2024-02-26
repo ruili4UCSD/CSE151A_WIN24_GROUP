@@ -1953,35 +1953,13 @@ In reality a lot of our data has already been pre-processed in the Importing and
 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Model One: K-Nearest Neighbors
 
-We implemented the K-Nearest Neighbors algorithm as our initial model, chosen for its simplicity and effectiveness in multi-label classification tasks. The model's key aspects included:
+For the complete version, please check the [current notebook](./ipynb/LeetcodeDataExploration.ipynb)
+
+We chose the K-Nearest Neighbors (KNN) algorithm for its simplicity and effectiveness, particularly in multi-label classification tasks. KNN operates on the principle that similar data points are often in close proximity and classifies a new data point based on the majority vote of its 'k' nearest neighbors. Its ability to handle multi-label classification makes it well-suited for predicting the difficulty levels of LeetCode problems (Easy, Medium, Hard).
+
+The model's key aspects include:
 
 - Utilizing a range of 'k' values to determine the optimal number of neighbors for classification.
 - Evaluating the model using accuracy, precision, and recall metrics.
@@ -1989,19 +1967,15 @@ We implemented the K-Nearest Neighbors algorithm as our initial model, chosen fo
 
 ## Training the K-Nearest Neighbors Model
 
+The model's key aspects include:
 
-We implemented the K-Nearest Neighbors algorithm as our initial model, chosen for its simplicity and effectiveness in multi-label classification tasks. 
-
-The best k value should be:  12.
-
-Then we train the model in k=12.
-
-We deleted code part in READEME. For detailed training code, please check notebook.
-
-🔗 [Current Notebook](./ipynb/LeetcodeDataExploration.ipynb)
-
+- Utilizing a range of 'k' values to determine the optimal number of neighbors for classification. Our findings showed the best 'k' value is 12.
+- Evaluating the model using accuracy, precision, and recall metrics.
+- Employing cross-validation to assess the model's performance and avoid overfitting.
 
 ## Evulation In Test Set (KNN)
+
+After tuning our model to the best 'k' value, we continue by assessing its performance on the unseen test data to see how well it generalizes.
 
     Confusion Matrix:
     [[[118  17]
@@ -2028,6 +2002,8 @@ We deleted code part in READEME. For detailed training code, please check notebo
 
 ## Evulation in Training Set (KNN)
 
+To understand our model's learning, we also evaluate its performance on the training set to see how well it has captured the underlying patterns of the data.
+
     Confusion Matrix:
     [[[1087  126]
       [ 210  219]]
@@ -2051,7 +2027,7 @@ We deleted code part in READEME. For detailed training code, please check notebo
     
     
 
-## Compare Training and Testing Error
+## Comparing Training and Testing Error
 
 By compare the error/accuracy and precision, recall in training and test data, we can see that:
 - The model performs not too good in both trainingand test data, we only got accuracy = 0.66/0.59.
@@ -2063,45 +2039,47 @@ Next we would show the fitting graph of training and test error under different 
 
 
 ## Fitting Graph and Cross Validation Result
+The fitting graph below shows the relationship between the choice of 'k' in KNN and the corresponding **training**, **testing**, and **cross-validation errors**.
 
-    
 ![png](./data/img/output_11_0.png)
     
+### **Observations from the Graph**
+
+- **Overfitting at Low k-values:** When 'k' is small (especially at k=1), the model achieves perfect accuracy on the training data, indicative of overfitting. As 'k' increases, the training error rises, and the test error generally decreases which shows a reduction in overfitting.
+
+- **Underfitting at High k-values:** Larger 'k' values tend to generalize better to unseen data, reducing test errors but excessively large 'k' can lead to underfitting.
+
+- **Cross-Validation:** The cross-validation error doesn't always grow according to 'k'. This behavior shows the importance of cross-validation in identifying a 'k' that ensures a model that is balanced between known data and unseen data. This pattern shows the delicate balance between avoiding overfitting with lower 'k' values and the risk of underfitting with higher 'k' values, despite the smaller errors.
+
+- **Odd vs. Even k-values:** Odd values of 'k' generally outperform even values, likely due to the nature of KNNs where an even 'k' can lead to equal votes among competing classes.
+
+**Reference used (KNN Introduction):** https://www.codecademy.com/learn/introduction-to-supervised-learning-skill-path/modules/k-nearest-neighbors-skill-path/cheatsheet
+
+### **Optimal 'k' Selection**
+
+We have chosen a 'k' of 12 since it shows the most balanced performance between overfitting and underfitting, as evidenced by its superior cross-validation score.
 
 
-This is our fitting graph, it shows the **cross-validation error**, **training error** and **test error** under different k-values. The graph shows several interesting thing:
+## Conclusion of Model #1: K-Nearest Neighbours
 
-- The model is super overfitting when K is too small, especially when K=1, we got accuracy=1 in training data. With K grows, training error increase and test error decrease. This  follows the characteristics of the KNN algorithm: *A small value of k could lead to overfitting as well as a big value of k can lead to underfitting*.
-This also explain why score of the cross-validation become better, because our model starts to get balanced between known data and unknown data.
-(KNN introduction url: https://www.codecademy.com/learn/introduction-to-supervised-learning-skill-path/modules/k-nearest-neighbors-skill-path/cheatsheet)
+Despite our efforts in fine-tuning 'k', the model's performance through iterative cross-validation on the dataset — marked by accuracies of 0.59 and 0.66 — hasn't met our expectations.
+This might be due to the fact that there is a relatively weak corellation between out features and the target variable "difficulty". The exploratory analysis, particularly the heatmap, showed that even the most correlated feature, "acceptance_rate", only has a correlation coefficient of -0.39. This is likely a significant contributor to the model's underwhelming performance.
+Strategies for Improvement
 
-- Cross validation score does not always grow with k-values. This is because cross validation is determine how the model performs in unknown data, with k-value grows, although we are getting smaller error in test data, we are facing the risk in underfitting, so cross validation score will not always increase.
+Given the model's current limitations, we propose some approaches to improve its accuracy:
+Extended 'k' Range: Broadening the range of 'k' values beyond the initial 1 to 40, we may find a more effective 'k' that could improve the model's performance. However, we need to keep in mind that it's crucial to balance the risk of overfitting with smaller 'k' values against underfitting with larger 'k' values.
+Data Preprocessing Refinement: Revisiting our aproach to preprocessing, which is currently centered around MinMax Scaling, could be beneficial. Exploring alternative scaling and standardization techniques could reveal new patterns and correlations that might help the model's performance.
+As we progress to subsequent models, we hope that we can achieve a better performance.
 
-- With K goes higher, odd k value performs better than even k value. This makes sense because when K is even, we may have 50/50 chance for points in KNN.
+## Upcoming Models
 
-The K pick by us is: 12.
-
-We pick this k-value because it gives us the best score in cross-validation. We think this is the best value of k between overfitting and underfitting.
-
-## Conclusion of Model One: K-Nearest Neighbours
-
-We choose K-Nearest Neighbors because it is a multi-label classification model. Although we found what we think is the best K value through iterative cross-validation, the test results of the model on the data set are still not good (accuracy = 0.59 and 0.66).
-
-We believe the main reason is that the correlation between our data and the attribute "difficulty" is not strong. As shown in the previous heatmap, even the highest correlation "acceptance_rate" only has a correlation of -0.39, which may be the main reason for the poor performance of our model.
-
-Since the model's performance is not as good as we had hoped it to be, there is still much room for improvement that can be done to maximize its performance. One simple thing that can be done is to choose a different k. When training our model, we wanted to find the model and value k that would give us the best score when cross validating. As such, we only had a range of k from 1 to 40 that we tested, but by extending this range to an even bigger one, there is potential that we may find a different k that can help run our model significantly better that with the k value we currently have. We do, however, have to keep in mind that a bigger k could lead to underfitting while a too small one can lead to overfitting, so a balance is needed. Another possible way to improve performance could be to preprocess the data differently. With our current model as it is, we have only preprocessed using MinMax Scaling, but we can potentially standardize the model and rescale the feature data differently to see if it can help change the performance of the model with a different preprocessing technique by potentially discovering new type of correlations that can help the model perform better. Different rescaling techniques and going through more iterations to find a different k to find a better model will help us potentially improve the performance from what we have now.
-
-We hope that in the next two models, we can get better performance.
-
-## Next 2 Models We Are thinking
-
-**Decision Tree**
+###**Decision Tree**
 
 https://scikit-learn.org/stable/modules/tree.html
 
 Reason: We are interested in implementing a decision tree because we know that it can be used for multiclass classification problems, and the sklearn implementation specifically can handle these problems when the data are numeric. One of the benefits of this model is that it is referred to as a "white box". This is because the model is understandable, as compared to an obfuscated "black box" that results from using a more complicated model. A decision tree is referred to as a "white box" because the model can easily be visualed into a picture and its rules can be understood. The model makes choices of which route down the tree to take based on different threshold values. Therefore, we will be able to analyze the rules the model is using in order to better understand its performance. This will make apparent which features are most strongly predictive, and what values of those features make certain values of the target more likely.
 
-**Neural Network**
+###**Neural Network**
 
 Reason: We are familiar with neural networks from class, and we know that they can be used to solve classification problems. For example, we used a neural network in HW2 to build a classifier for types of beans based on their attributes. We know how to start solving a multi-class classification problem using a neural net: for example, we're familiar with the different activation functions and loss functions we could use, and we understand structual details, like having as many units in the output layer as we have unique values in our target (in our case, 3 distinct difficulties). We are hopeful that a neural net will be a more successful model because of the hyperparameter tuning we will be able to do. There is a lot of experimentation to be done to optimize the model, so we are eager to attempt to achieve better results using this model.
 
