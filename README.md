@@ -1,34 +1,25 @@
 # CSE151A_WIN24_GROUP
 
 
-# Milestone1 - Abstract
+# Milestone #1: Abstract
 
 ### Topic: LeetCode
 
-**Dataset**:
-https://www.kaggle.com/datasets/gzipchrist/leetcode-problem-dataset/data 
-
-**Abstract**: 
 Leetcode is one of the largest interview coding prep platforms on the internet, with a huge catalog of coding problems ranked easy, medium, and hard. However, the company has never explained what distinguishes these categories. The dataset we plan to analyze represents 1825 Leetcode problems, with 19 different features such as difficulty, acceptance rate, attempted frequency, and related topics for each individual question. The purpose of our project is to understand what factors are considered to be most important to Leetcode when scoring the difficulty of a problem. We first plan to conduct an exploratory analysis to gain insight into what features are most responsible for determining difficulty ratings. We will then build a machine learning algorithm that hopefully can accurately categorize the difficulty of a problem when given these attributes. Since the problem is a classification problem the models we are considering are k-nearest neighbors, decision trees, and a softmax neural network (if covered in class). One possible application of our project would be to automatically label the difficulty of coding problems encountered outside of Leetcode, such as HackerRank or Codesignal.
 
-
-# Milestone2
-
----
-
-[Link to milestone2 notebook](./ipynb/LeetcodeDataExploration.ipynb)
-
-# Data Set Exploration
+🔗 [LeetCode Dataset](https://www.kaggle.com/datasets/gzipchrist/leetcode-problem-dataset/data )
 
 
-## Import Dataset
+# Milestone #2: Data Exploration & Initial Preprocessing
 
 
+For the complete version, please check the [current notebook](./ipynb/LeetcodeDataExploration.ipynb).
 
+# Data Exploration
 
+**Dataset info:** 
 
-
-    <class 'pandas.core.frame.DataFrame'>
+<class 'pandas.core.frame.DataFrame'>
     RangeIndex: 1825 entries, 0 to 1824
     Data columns (total 19 columns):
      #   Column             Non-Null Count  Dtype  
@@ -54,38 +45,26 @@ Leetcode is one of the largest interview coding prep platforms on the internet, 
      18  similar_questions  745 non-null    object 
     dtypes: float64(2), int64(7), object(10)
     memory usage: 271.0+ KB
-    
-    Dataset info: 
-     None
-    
-    Dataset null data sum: 
-     id                      0
-    title                   0
-    description             0
-    is_premium              0
-    difficulty              0
-    solution_link         838
-    acceptance_rate         0
-    frequency               0
-    url                     0
-    discuss_count           0
-    accepted                0
-    submissions             0
-    companies              76
-    related_topics        254
-    likes                   0
-    dislikes                0
-    rating                  0
-    asked_by_faang          0
-    similar_questions    1080
-    dtype: int64
-    
-    Data example: 
-    
+
+**Dataset null data sum:**
+
+is_premium           0
+difficulty           0
+acceptance_rate      0
+frequency            0
+discuss_count        0
+accepted             0
+submissions          0
+related_topics     254
+likes                0
+dislikes             0
+rating               0
+faang_count         76
+non_faang_count     76
+dtype: int64
 
 
-
-
+**Data Example:**
 
   <div id="df-bb9ff9ee-06b9-4f4c-b98f-84fc4b73a93a" class="colab-df-container">
     <div>
@@ -264,16 +243,12 @@ Leetcode is one of the largest interview coding prep platforms on the internet, 
 
 
 
-
 ## Dataset Attribute Descriptions
 
-The dataset we have chosen to work with is related to Leetcode, which is one of the largest interview coding prep platforms on the internet, with a huge catalog of coding problems ranked easy, medium, and hard.
-
-The total number of observations that have been gathered for this dataset is 1825. We have considered that this is an appropriate number of observations, with enough data to perform a correct analysis and modeling but not so many as to need to subsample the dataset.
-
-For each of these observations we have 19 distinct features. However, we have decided to drop 6 of the columns for the purpose of our analysis, since they are not relevant to our project.
-
-Our target is difficulty. That is, with this project our aim is to predict whether the problem is considered easy, medium or hard.
+The dataset we have selected is derived from LeetCode, one of the largest online platforms for interview coding preparation with an extensive array of coding challenges categorized as easy, medium, and hard.
+The total number of observations that have been gathered for this dataset is 1825. We have considered that this is an appropriate number of observations for a thorough analysis and modeling but is manageble anough to avoid the need for subsampling.
+Each observation is detailed through 19 distinct features. However, for the scope of our analysis, we've opted to exclude 6 of these features as they do not contribute to our project's objectives.
+Our target variable is the 'difficulty' level of each problem. In other words, this project aims to accurately predict the classification of these problems into easy, medium, or hard, based on their attributes.
 
 
 | Column Name         | Data Type | # of Null | Description |
@@ -302,13 +277,6 @@ Our target is difficulty. That is, with this project our aim is to predict wheth
 
 - Analyze the distribution of topics and difficulty levels, and the relationship between the two.
 - Explore the correlation between problem difficulty and other factors such as acceptence rate, frequency, submissions, related topics, and the like-to-dislike ratio.
-
-
-
-
-
-
-
 
   <div id="df-080b3694-28bd-4117-9216-3def1f142b76" class="colab-df-container">
     <div>
@@ -435,7 +403,7 @@ Our target is difficulty. That is, with this project our aim is to predict wheth
             title="Convert this dataframe to an interactive table."
             style="display:none;">
 
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">;
     <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
   </svg>
     </button>
@@ -459,11 +427,6 @@ Our target is difficulty. That is, with this project our aim is to predict wheth
 </div>
     </div>
   </div>
-
-
-
-
-
 
 
 ![png](./data/img/output_8_1.png)
@@ -500,55 +463,47 @@ Finally, we visualize how various topics are distributed across the three diffic
     
 
 
-## Data Evulation and How We Preprocessing Data
-
-### Data we need to drop
-
-Given our goal is to predict the "difficulty" by a series of inputs, through the above data exploration and data visualization above, we can eliminate the following columns from the database:
-
-- "id": A unique identifier for each problem, which does not aid in predicting difficulty.
-- "title": Same as above.
-- "description": Same as above.
-- "solution_link": Same as above.
-- "url": Same as above.
-- "similar_questions": Same as above.
-- "asked_by_faang":  This attributes just indicates whether the question was asked by faang or not. We thought it would be more useful to have “how many faang companies asked this question” instead of that for the prediction.
-- (standlization) "companies": Some big companies might choose harder problems, we would transfer this column to numeric attributes "fanng_count" and "non_fanng_count" that can be used by model.
-- (standlization) "related_topics": There might be a correlation between this attribute and difficulty (topics associated with obscure concepts might be harder), since this is a String attributes, we need to standlization it.
-
-### Data we need to standlization
-
-We need to perform Data Transformation on the following attributes:
-
-- "difficulty": This is our target attribute (class), given that it is initialized as "Easy", "Medium", "Hard", we need to perform Categorical Feature Encoding on it.
-- "submissions": This attribute is number in string format,  we need to convert it into a number.
-- "accepted": This attribute is number in string format,  we need to convert it into a number.
-- "companies" standlized to "faang_count", As talked above, some big companies might choose harder problems, we would add a new column "faang" count how many famous companies ("Facebook", "Amazon", "Apple", "Netflix", "Google".) choosed this question.
-- "companies" standlized to "non_faang_count", same as above, but this is how many compainess does not choose this question.
-- "related topics": We will separate the terms in this attribute by comma, then one-hot encode them to fit the machine learning.
-
-### Missing data and problems
-
-Among the remaining attributes, we mainly have missing data in the following attributes:
-
-- Currently, after dropping attributes, no attributes are left with missing data.
-
-For the remaining attributes, we need to perform Normalization to make them more suitable for machine learning.
+## Data Evaluation and Preprocessing Overview
 
 
-# Data Cleaning and Preprocessing (Stage One For Data Visualization)
+**1. Dropping Unnecessary Data**
+
+We have identified certain attributes that don't contribute to predicting 'difficulty'. These columns are:
+
+- "id": Unique identifiers for problems, irrelevant to difficulty prediction.
+- "title": Does not provide predictive value for difficulty.
+- "description": Unrelated to the predictive task at hand.
+- "solution_link" and "url": Links that offer no predictive insight.
+- "similar_questions": Does not directly contribute to predicting difficulty.
+- "asked_by_faang": Rather than a binary value of whether a FAANG company asked the question, a count of how many FAANG companies asked it might be more informative.
 
 
-We performed several preprocessing steps we claimed above, including but not only:
+**2. Data Standardization/Transformation**
+Certain columns require transformation to numerical attributes:
 
-- Removing irrelevant features.
-- Handling missing values through imputation or exclusion.
-- Encoding categorical variables to numerical values.
-- Normalizing the data using MinMax Scaling to ensure compatibility with machine learning algorithms.
+- "difficulty": Our target variable will be encoded from categorical ("Easy", "Medium", "Hard") to a numerical format.
+- "submissions" and "accepted": These string-formatted numerical values will be converted to integers.
+- "companies": To capture the potential correlation between the problem's difficulty and the company's profile, we'll convert this into two numeric attributes: "faang_count" for the count of FAANG companies and "non_faang_count" for others.
+- "related_topics": Given the potential link between certain topics and problem difficulty, this attribute will be standardized and one-hot encoded to represent the various topics.
 
-This part are mainly coding part. For detail code, please check notebook.
 
-🔗 [Current Notebook](./ipynb/LeetcodeDataExploration.ipynb)
+**3. Handling Missing Data**
+After the initial data cleaning:
+- No attributes currently exhibit missing values, indicating a clean dataset ready for further processing.
+- For optimal model performance, normalization will be applied to the remaining attributes to ensute uniformity in data scale and distribution.@
+
+
+# Data Cleaning and Preprocessing 
+
+
+We performed several preprocessing steps we discussed above, including:
+
+- Encoding 'difficulty' as 0 (Easy), 1 (Medium), 2 (Hard).
+- Dropping 'id', 'title', 'description', 'solution_link', 'url', 'asked_by_faang' columns.
+- Encoding 'related_topics' using one-hot encoding. Although it might not be relevant, it's interesting to explore.
+- Converting 'companies' into FAANG count/total count.
+
+This part mainly consists of coding. For the detailed code, please check the [notebook](./ipynb/LeetcodeDataExploration.ipynb).
 
 
 <div id="df-da895501-58c6-46c9-aa0d-2666cb586173">
@@ -910,9 +865,9 @@ This part are mainly coding part. For detail code, please check notebook.
 
 
 # Data Visualization and Analysis
-- See the coorolation between difficulty and (acceptence rate, frequency?, submissions, topics, like to dislike)
-- All data visualizations
-
+- Analyze the distribution of topics and difficulty levels, and the relationship between the two.
+- Explore the correlation between problem difficulty and other factors such as acceptence rate, frequency, submissions, related topics, and the like-to-dislike ratio.
+- Visualize the data to explore patterns and uncover insights.
 
 
 
@@ -1182,22 +1137,19 @@ This part are mainly coding part. For detail code, please check notebook.
 
 
 ## Pairplot
-We have opted to remove the one hot encoded data in our pairplot as it takes much to long to load if we do.
-
+Now, we visualize the pairwise relationships between variables to identify potential patterns and correlations.
 
     
 ![png](./data/img/output_27_1.png)
     
-
-Some interesting things to note from our pair plot include:
-- That discussion and acceptence rate seem most corrolated with difficulty.
-- Likes and dislikes are inversely coorolated.
-- non-faang count and frequency look to be positively corrolated.
-
-But our pairplot isn't giving us a ton of stuff relevant information for our goal. So thats why we move on to our heat map/corrolation matrix.
+Key observations from our pair plot analysis:
+- There appears to be a significant correlation between discussion, acceptance rate, and difficulty.
+- Likes and dislikes are inversely correlated.
+- The count of non-FAANG companies and problem frequency seem to have a positive correlation.
+However, the pair plot does not provide provide substantial information relevant to our goal. Therefore, we will proceed to examine the data using a heatmap/correlation matrix to gain more insights.
 
 ## Coorrolation Matrix
-We now move onto our corrolation matrix, which we hope will give us a little more insight into our data. We need to start by normalizing our data. We use minmax normalization since only some of our data looks to be normally distributed.
+Transitioning to the correlation matrix analysis, our aim is to gain deeper insights into the relationships between variables. We begin by normalizing our data, for which we have chosen min-max normalization since not all our data is normally distributed.
 
 
 
@@ -1540,7 +1492,7 @@ We now move onto our corrolation matrix, which we hope will give us a little mor
 
 
 
-We now can now look at our corrolation matrix.
+With the data normalization complete, we can now examine our correlation matrix.
 
 
 
@@ -1548,13 +1500,12 @@ We now can now look at our corrolation matrix.
 ![png](./data/img/output_33_1.png)
     
 
+This correlation matrix offers insights into the relationships between variables. Notable observations include:
+- Several "Tree" related topics have a positive correlation with eachother.
+- Discussion is negatively correlated with rating (significantly more so than submissions), implying that the harder a problem is, the less discussion there will be.
+- The most negatively correlated topic with rating is "Math"
 
-So with this corrolation matrix we can get a better understanding of what variables are correlated with others. For example:
-- We can see how many of the Tree topics have positive correlation with eachother
-- Discussion is negatively correlated with rating (significantly more so than submissions), implying that the harder a problem is the less discussion there will be.
-- The most negatively correlated topic with rating is math XD (leetcoders hate math)
-
-However, this corrolation matrix is a bit overwhelming. So lets focus on our parameter of interest, difficulty.
+However, given the extensive information presented in this correlation matrix, we will narrow our focus on the parameter of interest: problem difficulty.
 
 
 
@@ -1566,15 +1517,11 @@ However, this corrolation matrix is a bit overwhelming. So lets focus on our par
     
 
 
-With all the topics mixed with all the other data its still a bit hard to see whats going on. So we can break it down even further into related topics and the rest of the features:
-
-
-
-
-Looking at the related topics we can conclude some interesting properties.
+To clarify the complex data, we break down the analysis into related topics and the other remaining features.
+Looking at the related topics we can conclude some interesting properties:
 - "Dynamic programming" is the most corrolated topic in determining problem difficulty.
-- Array is the most negatively corrolated topic
-- Most topic labels are associated with increased difficulty
+- "Array" topics are the most negatively correlated topic.
+- Most topic labels are associated with increased difficulty.
 
 
     
@@ -1582,19 +1529,17 @@ Looking at the related topics we can conclude some interesting properties.
     
 
 
-Looking at the other features we can conclude some other interesting properties.
-- "Acceptance rate" is the most corrolated feature determining difficulty (which seems self evident)
-- "Discuss count" is the second most corrolated feature
-- Dislikes seems to be a better predictor of problem difficulty than likes (which is interesting since leetcode actually hid the dislike counter)
+Looking at the other features we can conclude some other interesting properties:
+- "Acceptance rate" is the most correlated feature determining difficulty (which seems self evident)
+- "Discuss count" is the second most correlated feature.
+- "Dislikes" seems to be a better predictor of problem difficulty than likes (which is interesting since leetcode actually hid the dislike counter)
 
 
 
 ![png](./data/img/output_41_1.png)
     
 
-
-We can now clearly decide which features are relevant and which are not. We will drop all features who's corrolation is below .05 leaving us with 24 features (excluding difficulty).
-
+We can now clearly decide which features are relevant to problem difficulty and which are not. We will drop all features with a correlation coefficient below 0.05, leaving us with a set of 24 features (excluding 'difficulty' itself).
 
     
 ![png](./data/img/output_43_1.png)
@@ -1602,8 +1547,7 @@ We can now clearly decide which features are relevant and which are not. We will
 
 
 # Data Preprocessing (Stage Two)
-With all of our data exploration done we have know have landed on a handful of features we know we want to keep.
-In reality a lot of our data has already been pre-processed in the Importing and Cleanning data phase, now we just need to refine based on our finding from the data exploration.
+Following our comprehensive data exploration, we have know identified a select group of features to keep. Although, a significant portion our data underwent preprocessing during the initial importing and cleaning phase, now we just need to make refinements based on our findings from the data exploration.
 
 
 
@@ -1953,9 +1897,9 @@ In reality a lot of our data has already been pre-processed in the Importing and
 </div>
 
 
-# Model One: K-Nearest Neighbors
+# Milestone #3: Model One - K-Nearest Neighbors
 
-For the complete version, please check the [current notebook](./ipynb/LeetcodeDataExploration.ipynb)
+For the complete version, please check the [current notebook](./ipynb/LeetcodeDataExploration.ipynb).
 
 We chose the K-Nearest Neighbors (KNN) algorithm for its simplicity and effectiveness, particularly in multi-label classification tasks. KNN operates on the principle that similar data points are often in close proximity and classifies a new data point based on the majority vote of its 'k' nearest neighbors. Its ability to handle multi-label classification makes it well-suited for predicting the difficulty levels of LeetCode problems (Easy, Medium, Hard).
 
