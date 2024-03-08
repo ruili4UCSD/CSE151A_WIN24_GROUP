@@ -1917,7 +1917,7 @@ The model's key aspects include:
 - Evaluating the model using accuracy, precision, and recall metrics.
 - Employing cross-validation to assess the model's performance and avoid overfitting.
 
-## Evulation In Test Set (KNN)
+## Evaluation In Test Set (KNN)
 
 After tuning our model to the best 'k' value, we continue by assessing its performance on the unseen test data to see how well it generalizes.
 
@@ -2015,17 +2015,85 @@ Extended 'k' Range: Broadening the range of 'k' values beyond the initial 1 to 4
 Data Preprocessing Refinement: Revisiting our aproach to preprocessing, which is currently centered around MinMax Scaling, could be beneficial. Exploring alternative scaling and standardization techniques could reveal new patterns and correlations that might help the model's performance.
 As we progress to subsequent models, we hope that we can achieve a better performance.
 
-## Upcoming Models
+# Model #2: Decision Trees
 
-### **Decision Tree**
+We chose the Decision Tree algorithm for its easy interpretation, and its ability to visualize which attributes are most important, which isn't always clear with other algorithms. This is beneficial because we can see the hierarchical relationship between the features, thus being able to determine which features are most strongly predictive, and which are not. Also, its ability to handle various data types such as discrete or continuous values through the use of thresholds makes it suitable for a multi-label classification, or in our case, predicting the difficulty levels of LeetCode problems (Easy, Medium, Hard).
+
+
+## Training the Decision Tree Model
+
+- We fine-tuned the model on ccp_alpha parameter that represents degree of pruning
+- Best validation accuracy was achieved for alpha=0.0016001376425733224
+
+    
+![png](data/img/LeetcodeDataExploration_70_2.png)
+    
+Visualization of the best model
+
+![png](data/img/LeetcodeDataExploration_73_1.png)
+
+## TODO:
+4. Where does your model fit in the fitting graph, how does it compare to your first model?
+
+
+## Evaluation on Training and Test
+
+
+
+    Train accuracy: 0.7521315468940317
+    Test accuracy: 0.6065573770491803
+                  precision    recall  f1-score   support
+    
+               0       0.53      0.33      0.41        48
+               1       0.62      0.72      0.66        95
+               2       0.63      0.68      0.65        40
+    
+        accuracy                           0.61       183
+       macro avg       0.59      0.57      0.57       183
+    weighted avg       0.60      0.61      0.59       183
+    
+
+
+
+
+## Compare Training and Testing Error
+
+Now we conduct a comparative analysis of the model's performance across the training and the testing sets to understand how well the model can generalize beyond the data it was trained on.
+
+- **Performance Overview:** The accuracy scores indicate that the model's performance is moderate, with a training accuracy of 0.75 and testing accuracy of 0.61. This again, has room for improvement in the model's ability to predict unseen data accurately. However, it had slightly better results than the previous model. The model performs better on the training set, as expected.
+
+- **Class-wise Performance:** The model shows better performance for the 'medium' and 'hard' difficulty level than the 'easy' difficulty level. This could be because of having low prevalence of 'easy' difficulty class compared to 'medium' and 'hard' in the dataset.
+
+- **Precision and Recall:** The model’s precision across the 3 classes is relatively stable at around .60. The recall however is not as stable with recall being lower for the easier questions and higher for the medium and harder questions. The features don’t capture the difference between easy and medium questions very well so the model will frequently classify it as a medium question.
+
+## Decision Tree visualization
+
+
+    
+![svg](data/img/LeetcodeDataExploration_79_0.svg)
+    
+
+
+### **Decision Tree Observation**
+
+We observe that the most useful features for classification are the ones being compared in the top layers of the tree. In the top 3 layers, the only features used are discuss_count, acceptance_rate, and rating. In the lower layers, frequency, acceptance_rate, and many question topics (Hash Map, Union Find, etc) are used.
+
+Looking at the tree as a whole, we find a lot of nodes of class 1, perhaps due to the nature of our encoding putting class 1 between the other classes causing many predictions of class 1. This aligns with about half of the samples being class 1 as well as class 1 having relatively fewer false negatives (precision < recall).
+
+The first decision separates more than half of the class 2 observations from the set along with around a fourth of the class 1 observations and very few class 0 observations. This suggests that the classes do somewhat fall on a spectrum with respect to the selected features (it is easier to separate class 0 and 2 rather than 0 and 1 or 1 and 2). This is supported by the fact that there is only one instance of two sibling nodes being class 0 and 2; every other pair is 0/1 or 1/2.
+
+
+## **Conclusion of Model #2: Decision Tree**
+
+TODO
+
+# Upcoming Models
+
+###**Decision Tree**
 
 https://scikit-learn.org/stable/modules/tree.html
 
-Reason: We are interested in implementing a decision tree because we know that it can be used for multiclass classification problems, and the sklearn implementation specifically can handle these problems when the data are numeric. One of the benefits of this model is that it is referred to as a "white box". This is because the model is understandable, as compared to an obfuscated "black box" that results from using a more complicated model. A decision tree is referred to as a "white box" because the model can easily be visualed into a picture and its rules can be understood. The model makes choices of which route down the tree to take based on different threshold values. Therefore, we will be able to analyze the rules the model is using in order to better understand its performance. This will make apparent which features are most strongly predictive, and what values of those features make certain values of the target more likely.
 
-### **Neural Network**
+###**Neural Network**
 
 Reason: We are familiar with neural networks from class, and we know that they can be used to solve classification problems. For example, we used a neural network in HW2 to build a classifier for types of beans based on their attributes. We know how to start solving a multi-class classification problem using a neural net: for example, we're familiar with the different activation functions and loss functions we could use, and we understand structual details, like having as many units in the output layer as we have unique values in our target (in our case, 3 distinct difficulties). We are hopeful that a neural net will be a more successful model because of the hyperparameter tuning we will be able to do. There is a lot of experimentation to be done to optimize the model, so we are eager to attempt to achieve better results using this model.
-
-
-🔗 [Current Notebook](./ipynb/LeetcodeDataExploration.ipynb)
