@@ -2032,9 +2032,14 @@ Visualization of the best model
 
 ![png](data/img/LeetcodeDataExploration_73_1.png)
 
-## TODO:
-4. Where does your model fit in the fitting graph, how does it compare to your first model?
+### **Observations from the Graph**
+When accuracy score = 1, it is overfitting
 
+**Overfitting at low alpha values:** When ccp alpha is small, indicating less pruning on the decision tree, the training model achieves perfect accuracy, which indicates overfitting.
+
+**Cost Complexity Pruning:** On the fitting graph, we found out that the cost complexity pruning alpha value that gives us the highest accuracy in the testing dataset is 0.0016001376425733224.
+
+**Model Comparison:** When compared to the previous models fitting graph it behaves similarly with earlier values of alpha/k overfitting and has a higher error at later values.
 
 ## Evaluation on Training and Test
 
@@ -2085,13 +2090,9 @@ The first decision separates more than half of the class 2 observations from the
 
 ## **Conclusion of Model #2: Decision Tree**
 
-TODO
+To conclude our second model, our decision tree performed mostly the same as the first model, and while having high recall on easy problems is still difficult, the recall is more stable for medium and difficult problems. There are ways to improve performance that we did not use include bagging and boosting. This model revealed the most important features, and getting more accurate data on discussion_count can be useful along with possible feature expansion
 
 # Upcoming Models
-
-###**Decision Tree**
-
-https://scikit-learn.org/stable/modules/tree.html
 
 
 ###**Neural Network**
