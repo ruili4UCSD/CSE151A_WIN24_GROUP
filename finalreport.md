@@ -25,7 +25,13 @@ In order to undertake this task, we have followed a set of preliminary steps (da
 
 ## Data exploration
 
-### Dataset info
+We have decided to perform our data exploration in 2 stages, one before and one after the data preprocessing. Stage 1 is the initial exploration of our data, looking into our attributes, their datatypes, and the distribution of our data. Stage 2 has been performed after the initial preprocessing of our data, looking further into the correlation between the different features and our target.
+
+For a chronological approach, the steps have been: data exploration stage 1, data preprocessing stage 1, data exploration stage 2 and data preprocessing stage 2.
+
+### Stage 1
+
+#### Dataset info
 
 The total number of observations that have been gathered for this dataset is 1825. We have considered that this is an appropriate number of observations for a thorough analysis and modeling but is manageble anough to avoid the need for subsampling.
 
@@ -252,7 +258,7 @@ The first step of our exploration has been observing our raw data. We have looke
     </div>
   </div>
 
-### Attribute description
+#### Attribute description
 
 Each observation is detailed through 19 distinct features. However, for the scope of our analysis, we have opted to exclude 6 of these features as they do not contribute to our project's objectives.
 
@@ -280,7 +286,7 @@ Below we have provided a decription for each of the features included in the dat
 | asked_by_faang      | int64     | 0         | whether or not the question was asked by facebook, apple, amazon, google, or netflix. |
 | similar_questions   | String    | 1080      | A list of similar entries, possibly including titles, links, and difficulty levels. |
 
-###  Figures
+####  Figures
 
 For a more detailed insight into the data, please refer to the [current notebook](./ipynb/LeetcodeDataExploration.ipynb).
 
@@ -442,22 +448,437 @@ Below, we will provide the figures that we believe provide the best insights int
 
 
 ![png](./data/img/output_8_1.png)
-*Figure 1: Correlation plot between the different features.*
+
+*Figure 1. Correlation plot between the different features.*
 
 ![png](./data/img/output_10_0.png)
-*Figure 2: Visualization of the number of problems associated with each unique topic*
+
+*Figure 2. Visualization of the number of problems associated with each unique topic*
     
 ![png](./data/img/output_12_0.png)
-*Figure 3: Distribution of problems across different difficulty levels (Easy, Medium, Hard)*
+
+*Figure 3. Distribution of problems across different difficulty levels (Easy, Medium, Hard)*
     
 ![png](./data/img/output_14_0.png)
-*Figure 4: Distribution of topics by difficulty level*
+
+*Figure 4. Distribution of topics by difficulty level*
+
+### Stage 2
+
+#### Figures
+
+**Pairplot**
+
+After the initial preprocessing we decided to visualize the pairwise relationships between variables to identify potential patterns and correlations.
+
+![png](./data/img/output_27_1.png)
+*Figure 5. Pairplot analysis of encoded data*
+    
+Key observations from our pair plot analysis:
+- There appears to be a significant correlation between discussion, acceptance rate, and difficulty.
+- Likes and dislikes are inversely correlated.
+- The count of non-FAANG companies and problem frequency seem to have a positive correlation.
+However, the pair plot does not provide provide substantial information relevant to our goal. Therefore, we will proceed to examine the data using a heatmap/correlation matrix to gain more insights.
+
+**Correlation matrix**
+
+Transitioning to the correlation matrix analysis, our aim is to gain deeper insights into the relationships between variables. We begin by normalizing our data, for which we have chosen min-max normalization since not all our data is normally distributed.
+
+  <!-- <div id="df-a2b7bcfe-8318-4a2c-80a8-f71441b9651b" class="colab-df-container">
+    <div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>is_premium</th>
+      <th>difficulty</th>
+      <th>acceptance_rate</th>
+      <th>frequency</th>
+      <th>discuss_count</th>
+      <th>accepted</th>
+      <th>submissions</th>
+      <th>likes</th>
+      <th>dislikes</th>
+      <th>rating</th>
+      <th>...</th>
+      <th>Sliding Window</th>
+      <th>Sort</th>
+      <th>Stack</th>
+      <th>String</th>
+      <th>Suffix Array</th>
+      <th>Topological Sort</th>
+      <th>Tree</th>
+      <th>Trie</th>
+      <th>Two Pointers</th>
+      <th>Union Find</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.401469</td>
+      <td>1.000</td>
+      <td>1.000000</td>
+      <td>4100000.0</td>
+      <td>8700000.0</td>
+      <td>1.000000</td>
+      <td>0.080000</td>
+      <td>0.967742</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.266830</td>
+      <td>0.931</td>
+      <td>1.000000</td>
+      <td>1900000.0</td>
+      <td>5200000.0</td>
+      <td>0.561365</td>
+      <td>0.303820</td>
+      <td>0.795699</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.215422</td>
+      <td>0.909</td>
+      <td>1.000000</td>
+      <td>2100000.0</td>
+      <td>6700000.0</td>
+      <td>0.683057</td>
+      <td>0.080225</td>
+      <td>0.946237</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.214198</td>
+      <td>0.862</td>
+      <td>1.000000</td>
+      <td>904700.0</td>
+      <td>2900000.0</td>
+      <td>0.478011</td>
+      <td>0.166966</td>
+      <td>0.860215</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.204406</td>
+      <td>0.847</td>
+      <td>1.000000</td>
+      <td>1300000.0</td>
+      <td>4100000.0</td>
+      <td>0.507989</td>
+      <td>0.075281</td>
+      <td>0.935484</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1820</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.917993</td>
+      <td>0.000</td>
+      <td>0.006061</td>
+      <td>305</td>
+      <td>343</td>
+      <td>0.000000</td>
+      <td>0.000225</td>
+      <td>0.462366</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1821</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.659731</td>
+      <td>0.000</td>
+      <td>0.095960</td>
+      <td>7900.0</td>
+      <td>11700.0</td>
+      <td>0.001731</td>
+      <td>0.000449</td>
+      <td>0.892473</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1822</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.708690</td>
+      <td>0.000</td>
+      <td>0.127273</td>
+      <td>6800.0</td>
+      <td>9500.0</td>
+      <td>0.003908</td>
+      <td>0.000449</td>
+      <td>0.946237</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1823</th>
+      <td>0.0</td>
+      <td>0.5</td>
+      <td>0.407589</td>
+      <td>0.000</td>
+      <td>0.126263</td>
+      <td>5000.0</td>
+      <td>10700.0</td>
+      <td>0.007173</td>
+      <td>0.000899</td>
+      <td>0.946237</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1824</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.173807</td>
+      <td>0.000</td>
+      <td>0.039394</td>
+      <td>2100.0</td>
+      <td>7400.0</td>
+      <td>0.002473</td>
+      <td>0.004831</td>
+      <td>0.516129</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>1825 rows × 55 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-a2b7bcfe-8318-4a2c-80a8-f71441b9651b')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  </div>
+
+
+<div id="df-434c40dc-40a9-44a4-bd25-2cf9613cdf54">
+  <button class="colab-df-quickchart" onclick="quickchart('df-434c40dc-40a9-44a4-bd25-2cf9613cdf54')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+</div>
+    </div>
+  </div> -->
+
+With the data normalization complete, we can now examine our correlation matrix.
+
+
+![png](./data/img/output_33_1.png)
+
+*Figure 6. Complete correlation matrix of all attributes*
+    
+
+This correlation matrix offers insights into the relationships between variables. Notable observations include:
+- Several "Tree" related topics have a positive correlation with eachother.
+- Discussion is negatively correlated with rating (significantly more so than submissions), implying that the harder a problem is, the less discussion there will be.
+- The most negatively correlated topic with rating is "Math"
+
+However, given the extensive information presented in this correlation matrix, we will narrow our focus on the parameter of interest: problem difficulty.
+
+
+
+
+
+
+    
+![png](./data/img/output_35_2.png)
+
+*Figure 7. Correlation between all attributes and problem difficulty*
+
+
+To clarify the complex data, we break down the analysis into related topics and the other remaining features.
+Looking at the related topics we can conclude some interesting properties:
+- "Dynamic programming" is the most corrolated topic in determining problem difficulty.
+- "Array" topics are the most negatively correlated topic.
+- Most topic labels are associated with increased difficulty.
+
+
+    
+![png](./data/img/output_39_1.png)
+
+*Figure 8. Correlation between related topics and problem difficulty*
+    
+
+
+Looking at the other features we can conclude some other interesting properties:
+- "Acceptance rate" is the most correlated feature determining difficulty (which seems self evident)
+- "Discuss count" is the second most correlated feature.
+- "Dislikes" seems to be a better predictor of problem difficulty than likes (which is interesting since leetcode actually hid the dislike counter)
+
+
+
+![png](./data/img/output_41_1.png)
+
+*Figure 9. Correlation between all features (except the related topics) and problem difficulty*
+    
+
+We can now clearly decide which features are relevant to problem difficulty and which are not. In the next stage of our preprocessing we will drop all features with a correlation coefficient below 0.05, leaving us with a set of 24 features (excluding 'difficulty' itself).
+
+    
+![png](./data/img/output_43_1.png)
+
+*Figure 10. Correlation between the features we have kept and problem difficulty*
 
 ## Preprocessing
 
-Throughout the preprocessing steps we continued working on our data exploration, since the modifications of our data were relevant enought to require further analysis.
+### Stage 1
 
-### Steps
+#### Steps
 
 **1. Dropping Unnecessary Data**
 
@@ -813,408 +1234,7 @@ The changes performed can be appreciated in the following table:
     </div>
   </div>
 
-After this step we decided to visualize the pairwise relationships between variables to identify potential patterns and correlations. We believe this would be useful to guide us in the next steps of out preprocessing.
-
-    
-![png](./data/img/output_27_1.png)
-*Figure 5. Pairplot analysis of encoded data*
-    
-Key observations from our pair plot analysis:
-- There appears to be a significant correlation between discussion, acceptance rate, and difficulty.
-- Likes and dislikes are inversely correlated.
-- The count of non-FAANG companies and problem frequency seem to have a positive correlation.
-However, the pair plot does not provide provide substantial information relevant to our goal. Therefore, we will proceed to examine the data using a heatmap/correlation matrix to gain more insights.
-
-**3. Data normalization**
-
-Transitioning to the correlation matrix analysis, our aim is to gain deeper insights into the relationships between variables. We begin by normalizing our data, for which we have chosen min-max normalization since not all our data is normally distributed.
-
-  <div id="df-a2b7bcfe-8318-4a2c-80a8-f71441b9651b" class="colab-df-container">
-    <div>
-
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>is_premium</th>
-      <th>difficulty</th>
-      <th>acceptance_rate</th>
-      <th>frequency</th>
-      <th>discuss_count</th>
-      <th>accepted</th>
-      <th>submissions</th>
-      <th>likes</th>
-      <th>dislikes</th>
-      <th>rating</th>
-      <th>...</th>
-      <th>Sliding Window</th>
-      <th>Sort</th>
-      <th>Stack</th>
-      <th>String</th>
-      <th>Suffix Array</th>
-      <th>Topological Sort</th>
-      <th>Tree</th>
-      <th>Trie</th>
-      <th>Two Pointers</th>
-      <th>Union Find</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.401469</td>
-      <td>1.000</td>
-      <td>1.000000</td>
-      <td>4100000.0</td>
-      <td>8700000.0</td>
-      <td>1.000000</td>
-      <td>0.080000</td>
-      <td>0.967742</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0.0</td>
-      <td>0.5</td>
-      <td>0.266830</td>
-      <td>0.931</td>
-      <td>1.000000</td>
-      <td>1900000.0</td>
-      <td>5200000.0</td>
-      <td>0.561365</td>
-      <td>0.303820</td>
-      <td>0.795699</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.0</td>
-      <td>0.5</td>
-      <td>0.215422</td>
-      <td>0.909</td>
-      <td>1.000000</td>
-      <td>2100000.0</td>
-      <td>6700000.0</td>
-      <td>0.683057</td>
-      <td>0.080225</td>
-      <td>0.946237</td>
-      <td>...</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.214198</td>
-      <td>0.862</td>
-      <td>1.000000</td>
-      <td>904700.0</td>
-      <td>2900000.0</td>
-      <td>0.478011</td>
-      <td>0.166966</td>
-      <td>0.860215</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.0</td>
-      <td>0.5</td>
-      <td>0.204406</td>
-      <td>0.847</td>
-      <td>1.000000</td>
-      <td>1300000.0</td>
-      <td>4100000.0</td>
-      <td>0.507989</td>
-      <td>0.075281</td>
-      <td>0.935484</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>1820</th>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.917993</td>
-      <td>0.000</td>
-      <td>0.006061</td>
-      <td>305</td>
-      <td>343</td>
-      <td>0.000000</td>
-      <td>0.000225</td>
-      <td>0.462366</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>1821</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.659731</td>
-      <td>0.000</td>
-      <td>0.095960</td>
-      <td>7900.0</td>
-      <td>11700.0</td>
-      <td>0.001731</td>
-      <td>0.000449</td>
-      <td>0.892473</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>1822</th>
-      <td>0.0</td>
-      <td>0.5</td>
-      <td>0.708690</td>
-      <td>0.000</td>
-      <td>0.127273</td>
-      <td>6800.0</td>
-      <td>9500.0</td>
-      <td>0.003908</td>
-      <td>0.000449</td>
-      <td>0.946237</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>1823</th>
-      <td>0.0</td>
-      <td>0.5</td>
-      <td>0.407589</td>
-      <td>0.000</td>
-      <td>0.126263</td>
-      <td>5000.0</td>
-      <td>10700.0</td>
-      <td>0.007173</td>
-      <td>0.000899</td>
-      <td>0.946237</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>1824</th>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.173807</td>
-      <td>0.000</td>
-      <td>0.039394</td>
-      <td>2100.0</td>
-      <td>7400.0</td>
-      <td>0.002473</td>
-      <td>0.004831</td>
-      <td>0.516129</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-  </tbody>
-</table>
-<p>1825 rows × 55 columns</p>
-</div>
-    <div class="colab-df-buttons">
-
-  <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-a2b7bcfe-8318-4a2c-80a8-f71441b9651b')"
-            title="Convert this dataframe to an interactive table."
-            style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
-    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
-  </svg>
-    </button>
-
-  </div>
-
-
-<div id="df-434c40dc-40a9-44a4-bd25-2cf9613cdf54">
-  <button class="colab-df-quickchart" onclick="quickchart('df-434c40dc-40a9-44a4-bd25-2cf9613cdf54')"
-            title="Suggest charts"
-            style="display:none;">
-
-<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
-     width="24px">
-    <g>
-        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
-    </g>
-</svg>
-  </button>
-
-</div>
-    </div>
-  </div>
-
-With the data normalization complete, we can now examine our correlation matrix.
-
-
-
-    
-![png](./data/img/output_33_1.png)
-    
-
-This correlation matrix offers insights into the relationships between variables. Notable observations include:
-- Several "Tree" related topics have a positive correlation with eachother.
-- Discussion is negatively correlated with rating (significantly more so than submissions), implying that the harder a problem is, the less discussion there will be.
-- The most negatively correlated topic with rating is "Math"
-
-However, given the extensive information presented in this correlation matrix, we will narrow our focus on the parameter of interest: problem difficulty.
-
-
-
-
-
-
-    
-![png](./data/img/output_35_2.png)
-    
-
-
-To clarify the complex data, we break down the analysis into related topics and the other remaining features.
-Looking at the related topics we can conclude some interesting properties:
-- "Dynamic programming" is the most corrolated topic in determining problem difficulty.
-- "Array" topics are the most negatively correlated topic.
-- Most topic labels are associated with increased difficulty.
-
-
-    
-![png](./data/img/output_39_1.png)
-    
-
-
-Looking at the other features we can conclude some other interesting properties:
-- "Acceptance rate" is the most correlated feature determining difficulty (which seems self evident)
-- "Discuss count" is the second most correlated feature.
-- "Dislikes" seems to be a better predictor of problem difficulty than likes (which is interesting since leetcode actually hid the dislike counter)
-
-
-
-![png](./data/img/output_41_1.png)
-    
-
-We can now clearly decide which features are relevant to problem difficulty and which are not. We will drop all features with a correlation coefficient below 0.05, leaving us with a set of 24 features (excluding 'difficulty' itself).
-
-    
-![png](./data/img/output_43_1.png)
-
-
-
-**4. Handling Missing Data**
+**3. Handling Missing Data**
 After the initial data cleaning:
 - No attributes currently exhibit missing values, indicating a clean dataset ready for further processing.
 - For optimal model performance, normalization will be applied to the remaining attributes to ensute uniformity in data scale and distribution.
@@ -1500,13 +1520,13 @@ This part mainly consists of coding. For the detailed code, please check the [no
   </div> -->
 
 
-**5. Correlation values**
+### Stage 2
 
-Following our comprehensive data exploration, we have know identified a select group of features to keep. Although, a significant portion our data underwent preprocessing during the initial importing and cleaning phase, now we just need to make refinements based on our findings from the data exploration. That is the reason why we will drop all features with a correlation coefficient below 0.05, leaving us with a set of 24 features (excluding 'difficulty' itself).
+Following our comprehensive data exploration in stage 2, we have now identified a select group of features to keep. Although a significant portion of our data underwent preprocessing during the initial importing and cleaning phase, now we just need to make refinements based on our findings from the data exploration. That is the reason why we will drop all features with a correlation coefficient below 0.05, leaving us with a set of 24 features (excluding 'difficulty' itself).
 
 A sample of the final dataframe can be observed below.
 
-### Sample output of out final dataframe
+#### Sample output of our final dataframe
 
 <div id="df-76fac49e-535d-4278-b823-bf57a1b57685">
   <button class="colab-df-quickchart" onclick="quickchart('df-76fac49e-535d-4278-b823-bf57a1b57685')"
@@ -1853,49 +1873,95 @@ A sample of the final dataframe can be observed below.
 </div>
 </div>
 
-## Model 1
-
-## Model 2
-
-## Model 3
-
-# Result
-
-## Model 1 Results / Figures
-
-## Model 2 Results / Figures
-
-## Model 3 Results / Figures
-
-# Discussion
-
-# Conclusion
-
-# Collaboration
-
-
-
-# Milestone #3: Model One - K-Nearest Neighbors
+## Model 1 - K-Nearest Neighbors (KNN)
 
 For the complete version, please check the [current notebook](./ipynb/LeetcodeDataExploration.ipynb).
 
 We chose the K-Nearest Neighbors (KNN) algorithm for its simplicity and effectiveness, particularly in multi-label classification tasks. KNN operates on the principle that similar data points are often in close proximity and classifies a new data point based on the majority vote of its 'k' nearest neighbors. Its ability to handle multi-label classification makes it well-suited for predicting the difficulty levels of LeetCode problems (Easy, Medium, Hard).
 
-The model's key aspects include:
+### Hyperparameter tuning
 
-- Utilizing a range of 'k' values to determine the optimal number of neighbors for classification.
-- Evaluating the model using accuracy, precision, and recall metrics.
-- Employing cross-validation to assess the model's performance and avoid overfitting.
+In the case of K-nearest neighbors, the hyperparameter we can tune is the 'k' value to determine the optimal number of neighbors for classification. The way we have approached this has been by building different models with different k values in a range from 1 to 40 and calculating the argmin for its error.
 
-## Training the K-Nearest Neighbors Model
+Our result was k=12.
 
-The model's key aspects include:
+## Model 2 - Decision Trees
 
-- Utilizing a range of 'k' values to determine the optimal number of neighbors for classification. Our findings showed the best 'k' value is 12.
-- Evaluating the model using accuracy, precision, and recall metrics.
-- Employing cross-validation to assess the model's performance and avoid overfitting.
+We chose the Decision Tree algorithm for its easy interpretation, and its ability to visualize which attributes are most important, which isn't always clear with other algorithms. This is beneficial because we can see the hierarchical relationship between the features, thus being able to determine which features are most strongly predictive, and which are not. Also, its ability to handle various data types such as discrete or continuous values through the use of thresholds makes it suitable for a multi-label classification, or in our case, predicting the difficulty levels of LeetCode problems (Easy, Medium, Hard).
 
-## Evulation In Test Set (KNN)
+### Hyperparameter tuning
+
+For decision trees, we decided to tune the model on the ccp_alpha parameter. This parameter represents the degree of pruning after the decision tree hsa been built and is used to control the trade-off between tree complexity and its ability to minimize ipurity. The goal is to get a decision tree that has a better performance on unseen data.
+
+The way we have implemented this had been by obtaining the accuracy score of the model depending on the value for ccp_alpha and doing argmax to get the value for alpha.
+
+The best validation accuracy was achieved for alpha=0.0016001376425733224
+
+
+## Model 3 - Neural networks
+
+We have observed that k-nearest neighbors and decision trees both have similar performance. We hope that a neural network will be able to infer more complex patterns that may not be captured by these more simplistic models.
+
+### Hyperparameter tuning
+
+In the case of neural networks there is a wide range of hyperparameters that can be tuned. In order to fins the best neural networks, the parameters that we have chosen to tune are:
+- Number of layers
+- Activation function for all hidden layers
+- Learning rate
+- Optimizer
+  - We haven't learned many optimizers beyond SGD but we will include Adam since it is based on SGD
+
+We have chosen not to tune:
+- Hidden layers individually (at least for now)
+  - While by no means authoritative, [this stack overflow post](https://stackoverflow.com/questions/37947558/neural-network-composed-of-multiple-activation-functions) seems to reasonably explain that changing the individual layers activation functions is likely to be less worthwhile than simply changing the number of layers or neurons
+- Output layer
+  - Softmax is generally considered to be the best output activation function for multiclassification problems
+- Loss function
+  - We don't want to use a regression loss function as our problem is a classification problem
+  - Since we have multiple classes we should use categorical cross entropy and not binary crossentropy.
+- Epochs
+  - We chose not to tune epochs as the [keras docs](https://keras.io/guides/keras_tuner/getting_started/#tune-model-training) say "It is generally not needed to tune the number of epochs because a built-in callback is passed to model.fit() to save the model at its best epoch evaluated by the validation_data."
+
+Our search space ends up being as follows:
+```
+Search space summary
+Default search space size: 6
+hidden_layers (Int)
+{'default': None, 'conditions': [], 'min_value': 2, 'max_value': 6, 'step': 1, 'sampling': 'linear'}
+units_0 (Int)
+{'default': None, 'conditions': [], 'min_value': 64, 'max_value': 512, 'step': 48, 'sampling': 'linear'}
+activation (Choice)
+{'default': 'relu', 'conditions': [], 'values': ['relu', 'tanh'], 'ordered': False}
+units_1 (Int)
+{'default': None, 'conditions': [], 'min_value': 64, 'max_value': 512, 'step': 48, 'sampling': 'linear'}
+learning_rate (Float)
+{'default': 0.0001, 'conditions': [], 'min_value': 0.0001, 'max_value': 1.0, 'step': None, 'sampling': 'log'}
+optimizer (Choice)
+{'default': 'adam', 'conditions': [], 'values': ['adam', 'SGD'], 'ordered': False}
+```
+
+After the training, our best model has a loss of 0.7388 and an accuracy of 0.6776. The model is as follows:
+
+Model: Sequential
+
+| Layer (type)     | Output Shape | Param # |
+|------------------|--------------|---------|
+| dense (Dense)    | (None, 352)  | 8096    |
+| dense_1 (Dense)  | (None, 160)  | 56480   |
+| dense_2 (Dense)  | (None, 64)   | 10304   |
+| dense_3 (Dense)  | (None, 64)   | 4160    |
+| dense_4 (Dense)  | (None, 3)    | 195     |
+
+Total params: 79235
+Trainable params: 79235
+Non-trainable params: 0
+
+
+# Result
+
+## Model 1 Results / Figures
+
+### Evaluation On Test Set (KNN)
 
 After tuning our model to the best 'k' value, we continue by assessing its performance on the unseen test data to see how well it generalizes.
 
@@ -1922,7 +1988,7 @@ After tuning our model to the best 'k' value, we continue by assessing its perfo
     
     
 
-## Evulation in Training Set (KNN)
+### Evaluation On Training Set (KNN)
 
 To understand our model's learning, we also evaluate its performance on the training set to see how well it has captured the underlying patterns of the data.
 
@@ -1949,7 +2015,7 @@ To understand our model's learning, we also evaluate its performance on the trai
     
     
 
-## Comparing Training and Testing Error
+### Comparing Training and Testing Error
 
 By compare the error/accuracy and precision, recall in training and test data, we can see that:
 - The model performs not too good in both trainingand test data, we only got accuracy = 0.66/0.59.
@@ -1960,12 +2026,14 @@ By compare the error/accuracy and precision, recall in training and test data, w
 Next we would show the fitting graph of training and test error under different K values.
 
 
-## Fitting Graph and Cross Validation Result
+### Fitting Graph and Cross Validation Result
 The fitting graph below shows the relationship between the choice of 'k' in KNN and the corresponding **training**, **testing**, and **cross-validation errors**.
 
 ![png](./data/img/output_11_0.png)
+
+*Figure 12. Training, testing and cross valodation error based on the value of k for KNN*
     
-### **Observations from the Graph**
+#### **Observations from the Graph**
 
 - **Overfitting at Low k-values:** When 'k' is small (especially at k=1), the model achieves perfect accuracy on the training data, indicative of overfitting. As 'k' increases, the training error rises, and the test error generally decreases which shows a reduction in overfitting.
 
@@ -1977,34 +2045,178 @@ The fitting graph below shows the relationship between the choice of 'k' in KNN 
 
 **Reference used (KNN Introduction):** https://www.codecademy.com/learn/introduction-to-supervised-learning-skill-path/modules/k-nearest-neighbors-skill-path/cheatsheet
 
-### **Optimal 'k' Selection**
+#### **Optimal 'k' Selection**
 
 We have chosen a 'k' of 12 since it shows the most balanced performance between overfitting and underfitting, as evidenced by its superior cross-validation score.
 
 
-## Conclusion of Model #1: K-Nearest Neighbours
+
+## Model 2 Results / Figures
+
+### Hyperparameter tuning observations
+
+![png](data/img/LeetcodeDataExploration_70_2.png)
+
+*Figure 13. Training and testing error based on the value for the effective alpha*
+    
+Below, you will be able to find the best model.
+
+![png](data/img/LeetcodeDataExploration_73_1.png)
+
+*Figure 14. Best model for decision trees*
+
+**Observations**
+When accuracy score = 1, it is overfitting
+
+- **Overfitting at low alpha values:** When ccp alpha is small, indicating less pruning on the decision tree, the training model achieves perfect accuracy, which indicates overfitting.
+
+- **Cost Complexity Pruning:** On the fitting graph, we found out that the cost complexity pruning alpha value that gives us the highest accuracy in the testing dataset is 0.0016001376425733224.
+
+- **Model Comparison:** When compared to the previous models fitting graph it behaves similarly with earlier values of alpha/k overfitting and has a higher error at later values.
+
+### Decision Tree visualization
+
+
+    
+![svg](data/img/LeetcodeDataExploration_79_0.svg)
+    
+*Figure 15. Visualizaiton of the decision tree model*
+
+**Decision Tree Observation**
+
+We observe that the most useful features for classification are the ones being compared in the top layers of the tree. In the top 3 layers, the only features used are discuss_count, acceptance_rate, and rating. In the lower layers, frequency, acceptance_rate, and many question topics (Hash Map, Union Find, etc) are used.
+
+Looking at the tree as a whole, we find a lot of nodes of class 1, perhaps due to the nature of our encoding putting class 1 between the other classes causing many predictions of class 1. This aligns with about half of the samples being class 1 as well as class 1 having relatively fewer false negatives (precision < recall).
+
+The first decision separates more than half of the class 2 observations from the set along with around a fourth of the class 1 observations and very few class 0 observations. This suggests that the classes do somewhat fall on a spectrum with respect to the selected features (it is easier to separate class 0 and 2 rather than 0 and 1 or 1 and 2). This is supported by the fact that there is only one instance of two sibling nodes being class 0 and 2; every other pair is 0/1 or 1/2.
+
+
+### Evaluation on Training and Test
+
+
+
+    Train accuracy: 0.7521315468940317
+    Test accuracy: 0.6065573770491803
+                  precision    recall  f1-score   support
+    
+               0       0.53      0.33      0.41        48
+               1       0.62      0.72      0.66        95
+               2       0.63      0.68      0.65        40
+    
+        accuracy                           0.61       183
+       macro avg       0.59      0.57      0.57       183
+    weighted avg       0.60      0.61      0.59       183
+    
+
+
+
+
+### Comparing Training and Testing Error
+
+Now we conduct a comparative analysis of the model's performance across the training and the testing sets to understand how well the model can generalize beyond the data it was trained on.
+
+- **Performance Overview:** The accuracy scores indicate that the model's performance is moderate, with a training accuracy of 0.75 and testing accuracy of 0.61. This again, has room for improvement in the model's ability to predict unseen data accurately. However, it had slightly better results than the previous model. The model performs better on the training set, as expected.
+
+- **Class-wise Performance:** The model shows better performance for the 'medium' and 'hard' difficulty level than the 'easy' difficulty level. This could be because of having low prevalence of 'easy' difficulty class compared to 'medium' and 'hard' in the dataset.
+
+- **Precision and Recall:** The model’s precision across the 3 classes is relatively stable at around .60. The recall however is not as stable with recall being lower for the easier questions and higher for the medium and harder questions. The features don’t capture the difference between easy and medium questions very well so the model will frequently classify it as a medium question.
+
+
+## Model 3 Results / Figures
+
+### Evaluation On Test Set (Neural Networks)
+
+After obtaining out best model, we continue by assessing its performance on the unseen test data to see how well it generalizes.
+
+              precision    recall  f1-score   support
+
+           0       0.61      0.72      0.66        46
+           1       0.71      0.71      0.71        98
+           2       0.68      0.54      0.60        39
+
+    accuracy                           0.68       183
+   macro avg       0.67      0.66      0.66       183
+weighted avg       0.68      0.68      0.68       183
+
+
+### Evalutaion On Training Set (Neural Networks)
+
+To understand our model's learning, we also evaluate its performance on the training set to see how well it has captured the underlying patterns of the data.
+
+              precision    recall  f1-score   support
+
+           0       0.65      0.66      0.66       431
+           1       0.70      0.77      0.74       865
+           2       0.78      0.56      0.65       346
+
+    accuracy                           0.70      1642
+   macro avg       0.71      0.67      0.68      1642
+weighted avg       0.71      0.70      0.70      1642
+
+
+### Comparing Training and Testing Error
+
+We can now compare the Training and Testing Performance of our Neural Network and compare them to previous models
+
+- **Training vs Testing:** The training accuracy was 70% and the testing accuracy was 68%. This implies that our model is slightly overfit as the training accuracy is higher than the testing accuracy. The precision and recall of the testing set is also lower than the training set.
+- **Neural Network vs KNN:** When comparing training accuracy our neural network performs about 4% better than our KNN model. When comparing testing accuracy our neural network performs about 9% better. While not a huge difference it is a small improvment.
+- **Neural Network vs Decision Tree:** When comparing training accuracy our neural network performs about 3% worse than our decision tree model. However, when comparing testing accuracy our neural network performs about 7% better. This shows how the decision tree learning model tends to overfit data
+
+In general the hypertuned neural network seems to more accurately predict the difficulty of leetcode problems. However, there is a tradeoff. The neural network is much less transparent of a model than a decision tree learning model.
+
+### Fitting Graph and Cross Validation Result
+
+![png](./data/img/output_nn_error.png)
+
+*Figure 16. Training and testing error based on the parameter count*
+
+Our fitting graph is unfortunately very disorganized. This is because parameter count is not a great measure of model complexity. However, it gives us some insight into our model, such as the fact that it is slightly overfit.
+
+# Discussion
+
+### Discussion of Model #1: K-Nearest Neighbours
 
 Despite our efforts in fine-tuning 'k', the model's performance through iterative cross-validation on the dataset — marked by accuracies of 0.59 and 0.66 — hasn't met our expectations.
-This might be due to the fact that there is a relatively weak corellation between out features and the target variable "difficulty". The exploratory analysis, particularly the heatmap, showed that even the most correlated feature, "acceptance_rate", only has a correlation coefficient of -0.39. This is likely a significant contributor to the model's underwhelming performance.
-Strategies for Improvement
+This might be due to the fact that there is a relatively weak correlation between our features and the target variable "difficulty". The exploratory analysis, particularly the heatmap, showed that even the most correlated feature, "acceptance_rate", only has a correlation coefficient of -0.39. This is likely a significant contributor to the model's underwhelming performance.
+
+**Strategies for Improvement**
 
 Given the model's current limitations, we propose some approaches to improve its accuracy:
 Extended 'k' Range: Broadening the range of 'k' values beyond the initial 1 to 40, we may find a more effective 'k' that could improve the model's performance. However, we need to keep in mind that it's crucial to balance the risk of overfitting with smaller 'k' values against underfitting with larger 'k' values.
 Data Preprocessing Refinement: Revisiting our aproach to preprocessing, which is currently centered around MinMax Scaling, could be beneficial. Exploring alternative scaling and standardization techniques could reveal new patterns and correlations that might help the model's performance.
 As we progress to subsequent models, we hope that we can achieve a better performance.
 
-## Upcoming Models
 
-### **Decision Tree**
+### Discussion of Model #2: Decision Tree
 
-https://scikit-learn.org/stable/modules/tree.html
+To conclude our second model, our decision tree performed mostly the same as the first model, and while having high recall on easy problems is still difficult, the recall is more stable for medium and difficult problems. 
 
-Reason: We are interested in implementing a decision tree because we know that it can be used for multiclass classification problems, and the sklearn implementation specifically can handle these problems when the data are numeric. One of the benefits of this model is that it is referred to as a "white box". This is because the model is understandable, as compared to an obfuscated "black box" that results from using a more complicated model. A decision tree is referred to as a "white box" because the model can easily be visualed into a picture and its rules can be understood. The model makes choices of which route down the tree to take based on different threshold values. Therefore, we will be able to analyze the rules the model is using in order to better understand its performance. This will make apparent which features are most strongly predictive, and what values of those features make certain values of the target more likely.
+**Strategies for Improvement**
 
-### **Neural Network**
+Some strategies that we have not implemented but would improve the performance of the decision tree are bagging and boosting. This model revealed the most important features, and getting more accurate data on discussion_count can be useful along with possible feature expansion
 
-Reason: We are familiar with neural networks from class, and we know that they can be used to solve classification problems. For example, we used a neural network in HW2 to build a classifier for types of beans based on their attributes. We know how to start solving a multi-class classification problem using a neural net: for example, we're familiar with the different activation functions and loss functions we could use, and we understand structual details, like having as many units in the output layer as we have unique values in our target (in our case, 3 distinct difficulties). We are hopeful that a neural net will be a more successful model because of the hyperparameter tuning we will be able to do. There is a lot of experimentation to be done to optimize the model, so we are eager to attempt to achieve better results using this model.
+### Discussion of Model #3: Neural Network
 
+Our Neural Network model outperformed our KNN and Decision Tree models, but barely. With accuracies of 68% for testing data and 70% for training data, our model really only has 7% improvment over the previous ones.
+
+We also need to acknowledge that Neural Networks are much more opaque than Decision Trees or KNN models. If somebody wants to understand why a problem is labeled easy, medium, or hard our Neural Network is unlikely to provide great insight.
+
+**Strategies for Improvement**
+1. _More rigourous hypertuning:_ For the sake of training time (and not losing our minds) we limited the parameters we were hypertuning. In theory there could be a model with more layers, more neurons, and different activation functions that may perform significantly better. Furthermore, we chose to use RandomizedSearch tuner for the sake of time, but GridSearch may give better results.
+2. _Better data/pre-processing:_ As the saying goes, garbage in -> garbage out. While our models perform decently we are unlikely to get much better performance without more and better data. An important aspect of a leetcode problem is the problem description. However, for simplicity sake we chose to drop it. If we were to process this data we would likely improve our model's accuracy significantly.
+
+# Conclusion
+
+In this study, we explored three different machine learning models — K-Nearest Neighbors (KNN), Decision Tree, and Neural Network — to predict the difficulty level of LeetCode problems.
+
+Having analyzed each of the different models, a conclusion that we are not excited to arrive to is that our dataset is not ideal for analysis. We have not been able to obtain a high accuracy in neither of the models, with the maximum accuracy having been obtained with the neural network, with an accuracy of 68% for testing data and 70% for training data.
+
+We believe that a reason behind this could be the imbalanced distribution of the data, with the majority of problems falling into the medium difficulty category. This imbalance might have led to skewed model predictions and hindered their ability to accurately classify instances across all difficulty levels.
+
+Looking ahead, we recognize the need for improvements to enhance the accuracy of our predictive models. Implementing the strategies outlined in the discussion section, such as refining data preprocessing techniques and expanding our hyperparameter tuning, holds promise for improving model performance. Additionally, acquiring a more comprehensive dataset with a balanced distribution of problem difficulty could yield more accurate and reliable predictions.
+
+In summary, while our initial findings may not be as promising as hoped, we remain optimistic about the potential for future improvements.
+
+# Collaboration
 
 🔗 [Current Notebook](./ipynb/LeetcodeDataExploration.ipynb)
-
