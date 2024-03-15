@@ -33,7 +33,7 @@ For a chronological approach, the steps have been: data exploration stage 1, dat
 
 #### Dataset info
 
-The total number of observations that have been gathered for this dataset is 1825. We have considered that this is an appropriate number of observations for a thorough analysis and modeling but is manageble anough to avoid the need for subsampling.
+The total number of observations that have been gathered for this dataset is 1825. We have considered that this is an appropriate number of observations for a thorough analysis and modeling but is manageable enough to avoid the need for subsampling.
 
 The first step of our exploration has been observing our raw data. We have looked into the data types as well as the amount of null values. We have also taken a look at a small subset of the data in order to have a vague idea as to what to expect for each of the attributes.
 
@@ -262,7 +262,7 @@ The first step of our exploration has been observing our raw data. We have looke
 
 Each observation is detailed through 19 distinct features. However, for the scope of our analysis, we have opted to exclude 6 of these features as they do not contribute to our project's objectives.
 
-Below we have provided a decription for each of the features included in the dataset.
+Below we have provided a description for each of the features included in the dataset.
 
 | Column Name         | Data Type | # of Null | Description |
 |---------------------|-----------|-----------|-------------|
@@ -824,7 +824,7 @@ With the data normalization complete, we can now examine our correlation matrix.
     
 
 This correlation matrix offers insights into the relationships between variables. Notable observations include:
-- Several "Tree" related topics have a positive correlation with eachother.
+- Several "Tree" related topics have a positive correlation with each other.
 - Discussion is negatively correlated with rating (significantly more so than submissions), implying that the harder a problem is, the less discussion there will be.
 - The most negatively correlated topic with rating is "Math"
 
@@ -843,7 +843,7 @@ However, given the extensive information presented in this correlation matrix, w
 
 To clarify the complex data, we break down the analysis into related topics and the other remaining features.
 Looking at the related topics we can conclude some interesting properties:
-- "Dynamic programming" is the most corrolated topic in determining problem difficulty.
+- "Dynamic programming" is the most correlated topic in determining problem difficulty.
 - "Array" topics are the most negatively correlated topic.
 - Most topic labels are associated with increased difficulty.
 
@@ -858,7 +858,7 @@ Looking at the related topics we can conclude some interesting properties:
 Looking at the other features we can conclude some other interesting properties:
 - "Acceptance rate" is the most correlated feature determining difficulty (which seems self evident)
 - "Discuss count" is the second most correlated feature.
-- "Dislikes" seems to be a better predictor of problem difficulty than likes (which is interesting since leetcode actually hid the dislike counter)
+- "Dislikes" seems to be a better predictor of problem difficulty than likes (which is interesting since Leetcode actually hid the dislike counter)
 
 
 
@@ -1891,7 +1891,7 @@ We chose the Decision Tree algorithm for its easy interpretation, and its abilit
 
 ### Hyperparameter tuning
 
-For decision trees, we decided to tune the model on the ccp_alpha parameter. This parameter represents the degree of pruning after the decision tree hsa been built and is used to control the trade-off between tree complexity and its ability to minimize ipurity. The goal is to get a decision tree that has a better performance on unseen data.
+For decision trees, we decided to tune the model on the ccp_alpha parameter. This parameter represents the degree of pruning after the decision tree hsa been built and is used to control the trade-off between tree complexity and its ability to minimize impurity. The goal is to get a decision tree that has a better performance on unseen data.
 
 The way we have implemented this had been by obtaining the accuracy score of the model depending on the value for ccp_alpha and doing argmax to get the value for alpha.
 
@@ -2031,7 +2031,7 @@ The fitting graph below shows the relationship between the choice of 'k' in KNN 
 
 ![png](./data/img/output_11_0.png)
 
-*Figure 12. Training, testing and cross valodation error based on the value of k for KNN*
+*Figure 12. Training, testing and cross validation error based on the value of k for KNN*
     
 #### **Observations from the Graph**
 
@@ -2162,7 +2162,7 @@ We can now compare the Training and Testing Performance of our Neural Network an
 - **Neural Network vs KNN:** When comparing training accuracy our neural network performs about 4% better than our KNN model. When comparing testing accuracy our neural network performs about 9% better. While not a huge difference it is a small improvment.
 - **Neural Network vs Decision Tree:** When comparing training accuracy our neural network performs about 3% worse than our decision tree model. However, when comparing testing accuracy our neural network performs about 7% better. This shows how the decision tree learning model tends to overfit data
 
-In general the hypertuned neural network seems to more accurately predict the difficulty of leetcode problems. However, there is a tradeoff. The neural network is much less transparent of a model than a decision tree learning model.
+In general the hypertuned neural network seems to more accurately predict the difficulty of Leetcode problems. However, there is a tradeoff. The neural network is much less transparent of a model than a decision tree learning model.
 
 ### Fitting Graph and Cross Validation Result
 
@@ -2183,7 +2183,7 @@ This might be due to the fact that there is a relatively weak correlation betwee
 
 Given the model's current limitations, we propose some approaches to improve its accuracy:
 Extended 'k' Range: Broadening the range of 'k' values beyond the initial 1 to 40, we may find a more effective 'k' that could improve the model's performance. However, we need to keep in mind that it's crucial to balance the risk of overfitting with smaller 'k' values against underfitting with larger 'k' values.
-Data Preprocessing Refinement: Revisiting our aproach to preprocessing, which is currently centered around MinMax Scaling, could be beneficial. Exploring alternative scaling and standardization techniques could reveal new patterns and correlations that might help the model's performance.
+Data Preprocessing Refinement: Revisiting our approach to preprocessing, which is currently centered around MinMax Scaling, could be beneficial. Exploring alternative scaling and standardization techniques could reveal new patterns and correlations that might help the model's performance.
 As we progress to subsequent models, we hope that we can achieve a better performance.
 
 
@@ -2197,13 +2197,13 @@ Some strategies that we have not implemented but would improve the performance o
 
 ### Discussion of Model #3: Neural Network
 
-Our Neural Network model outperformed our KNN and Decision Tree models, but barely. With accuracies of 68% for testing data and 70% for training data, our model really only has 7% improvment over the previous ones.
+Our Neural Network model outperformed our KNN and Decision Tree models, but barely. With accuracies of 68% for testing data and 70% for training data, our model really only has 7% improvement over the previous ones.
 
 We also need to acknowledge that Neural Networks are much more opaque than Decision Trees or KNN models. If somebody wants to understand why a problem is labeled easy, medium, or hard our Neural Network is unlikely to provide great insight.
 
 **Strategies for Improvement**
-1. _More rigourous hypertuning:_ For the sake of training time (and not losing our minds) we limited the parameters we were hypertuning. In theory there could be a model with more layers, more neurons, and different activation functions that may perform significantly better. Furthermore, we chose to use RandomizedSearch tuner for the sake of time, but GridSearch may give better results.
-2. _Better data/pre-processing:_ As the saying goes, garbage in -> garbage out. While our models perform decently we are unlikely to get much better performance without more and better data. An important aspect of a leetcode problem is the problem description. However, for simplicity sake we chose to drop it. If we were to process this data we would likely improve our model's accuracy significantly.
+1. _More rigorous hypertuning:_ For the sake of training time (and not losing our minds) we limited the parameters we were hypertuning. In theory there could be a model with more layers, more neurons, and different activation functions that may perform significantly better. Furthermore, we chose to use RandomizedSearch tuner for the sake of time, but GridSearch may give better results.
+2. _Better data/pre-processing:_ As the saying goes, garbage in -> garbage out. While our models perform decently we are unlikely to get much better performance without more and better data. An important aspect of a Leetcode problem is the problem description. However, for simplicity sake we chose to drop it. If we were to process this data we would likely improve our model's accuracy significantly.
 
 # Conclusion
 
