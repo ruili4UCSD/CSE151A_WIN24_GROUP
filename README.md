@@ -2225,7 +2225,7 @@ In summary, while our initial findings may not be as promising as hoped, we rema
 
 - Isabelle Krochmal: Programmer: Brainstormed potential datasets and projects with team. Attended team meetings, lead one meeting when usual team leader was not available. Performed initial data preprocessing: for example, decided on irrelevant or unusable features to drop, manipulated lists of companies into quantitative data features usable in model. Worked on Milestone 3: KNN. Researched and reviewed code with team. Interpreted results of model and then used them to write explanations for our reasoning of which two models we would create next.
 
-- Evie Stergiopoulou: Title : Contribution
+- Evie Stergiopoulou: Programmer/Writer: Milestone 2: Conducted data exploration for analyzing problem counts, distribution of problem difficulty levels, and distribution of topics by difficulty level. Refined the data evaluation and preprocessing section by splitting it in 4 subsections: dropping unnecessary data, data standardization, data transformation, and handling missing data. Provided overview for each section, ensured consistent formatting, and elaborated on writing and code that needed clarification. Milestone 3: Refined all writing aspects and added code comments to the KNN model section. Updated the README with current information.
 
 - James Rey Macasa: Programmer : Did data visualization by programming the heatmap to show the correlation between different features of data. Attended most meetings, helping brainstorm potential models to use and what datasets to work on. Worked on milestone 3 model: KNN. Helped review model code and results and asked TAs for advice for model as well as wrote potential improvements that could be made for the model.
 
