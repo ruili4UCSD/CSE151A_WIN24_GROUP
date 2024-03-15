@@ -2070,30 +2070,30 @@ Below, you will be able to find the best model.
 
 After obtaining out best model, we continue by assessing its performance on the unseen test data to see how well it generalizes.
 
-              precision    recall  f1-score   support
+                  precision    recall  f1-score   support
 
-           0       0.61      0.72      0.66        46
-           1       0.71      0.71      0.71        98
-           2       0.68      0.54      0.60        39
+              0       0.61      0.72      0.66        46
+              1       0.71      0.71      0.71        98
+              2       0.68      0.54      0.60        39
 
-    accuracy                           0.68       183
-   macro avg       0.67      0.66      0.66       183
-weighted avg       0.68      0.68      0.68       183
+        accuracy                           0.68       183
+      macro avg       0.67      0.66      0.66       183
+    weighted avg       0.68      0.68      0.68       183
 
 
 ### Evaluation On Training Set (Neural Networks)
 
 To understand our model's learning, we also evaluate its performance on the training set to see how well it has captured the underlying patterns of the data.
 
-              precision    recall  f1-score   support
+                  precision    recall  f1-score   support
 
-           0       0.65      0.66      0.66       431
-           1       0.70      0.77      0.74       865
-           2       0.78      0.56      0.65       346
+              0       0.65      0.66      0.66       431
+              1       0.70      0.77      0.74       865
+              2       0.78      0.56      0.65       346
 
-    accuracy                           0.70      1642
-   macro avg       0.71      0.67      0.68      1642
-weighted avg       0.71      0.70      0.70      1642
+        accuracy                           0.70      1642
+      macro avg       0.71      0.67      0.68      1642
+    weighted avg       0.71      0.70      0.70      1642
 
 ### Fitting Graph and Cross Validation Result
 
