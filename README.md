@@ -5,13 +5,13 @@
 
 ### Topic: LeetCode
 
-The dataset we have selected is derived from LeetCode, one of the largest online platforms for interview coding preparation with an extensive array of coding challenges categorized as easy, medium, and hard. However, the company has never explained what distinguishes these categories. The dataset we plan to analyze represents 1825 Leetcode problems, with 19 different features such as difficulty, acceptance rate, attempted frequency, and related topics for each individual question. The purpose of our project is to understand what factors are considered to be most important to Leetcode when scoring the difficulty of a problem.
+The dataset we have selected is derived from LeetCode, one of the largest online platforms for coding interview preparation with an extensive collection of coding challenges categorized as easy, medium, or hard. However, the company has never explained what distinguishes these categories——how does Leetcode decide the difficulty of a problem? The dataset we plan to analyze represents 1825 Leetcode problems, with 19 different features such as difficulty, acceptance rate, attempted frequency, and related topics for each individual question. The purpose of our project is to understand what factors are considered to be most important to Leetcode when scoring the difficulty of a problem.
 
 🔗 [LeetCode Dataset](https://www.kaggle.com/datasets/gzipchrist/leetcode-problem-dataset/data )
 
 ### Steps
 
-In order to undertake this task, we have followed a set of preliminary steps (data exploration and preprocessing) with the purpose of gaining some insight into what features are most responsible for determining difficulty ratings. After this initial step data analysis, we have developed 3 distinct classification models (k-nearest neighbors, decision trees and neural networks) with the purpose of categorizing the difficulty of a problem when given these attributes.
+In order to undertake this task, we have followed a set of preliminary steps (data exploration and preprocessing) with the purpose of gaining some insight into what features are most responsible for determining difficulty ratings. After this initial step data analysis, we have developed 3 distinct classification models (k-nearest neighbors, decision tree and neural network) with the purpose of categorizing the difficulty of a problem when given these attributes. Each of our 3 models attempted the same classification task, so we were able to compare their performance.
 
  ### Applications
 
@@ -260,7 +260,7 @@ The first step of our exploration has been observing our raw data. We have looke
 
 #### Attribute description
 
-Each observation is detailed through 19 distinct features. However, for the scope of our analysis, we have opted to exclude 6 of these features as they do not contribute to our project's objectives.
+Each observation is detailed through 19 distinct features. However, for the scope of our analysis, we have opted to exclude 6 of these features as they do not contribute to our project's objectives. These features were irrelevant or non-numeric, and we decided against attempting to implement NLP as it is beyond the scope of this class.
 
 Below we have provided a description for each of the features included in the dataset.
 
@@ -826,7 +826,7 @@ With the data normalization complete, we can now examine our correlation matrix.
 This correlation matrix offers insights into the relationships between variables. Notable observations include:
 - Several "Tree" related topics have a positive correlation with each other.
 - Discussion is negatively correlated with rating (significantly more so than submissions), implying that the harder a problem is, the less discussion there will be.
-- The most negatively correlated topic with rating is "Math"
+- The most negatively correlated topic with rating is "Math."
 
 However, given the extensive information presented in this correlation matrix, we will narrow our focus on the parameter of interest: problem difficulty.
 
@@ -856,9 +856,9 @@ Looking at the related topics we can conclude some interesting properties:
 
 
 Looking at the other features we can conclude some other interesting properties:
-- "Acceptance rate" is the most correlated feature determining difficulty (which seems self evident)
+- "Acceptance rate" is the most correlated feature determining difficulty (which seems self evident).
 - "Discuss count" is the second most correlated feature.
-- "Dislikes" seems to be a better predictor of problem difficulty than likes (which is interesting since Leetcode actually hid the dislike counter)
+- "Dislikes" seems to be a better predictor of problem difficulty than likes (which is interesting since Leetcode actually hid the dislike counter).
 
 
 
@@ -885,10 +885,10 @@ We can now clearly decide which features are relevant to problem difficulty and 
 We have identified certain attributes that don't contribute to predicting 'difficulty'. These columns are:
 
 - "id": Unique identifiers for problems, irrelevant to difficulty prediction.
-- "title": Does not provide predictive value for difficulty.
-- "description": Unrelated to the predictive task at hand.
+- "title": Does not provide predictive value for difficulty without NLP.
+- "description": Unrelated to the predictive task at hand without the use of NLP.
 - "solution_link" and "url": Links that offer no predictive insight.
-- "similar_questions": Does not directly contribute to predicting difficulty.
+- "similar_questions": Does not directly contribute to predicting difficulty without introducing too much complexity to the model. This info can also be gleaned from "related topics."
 - "asked_by_faang": Rather than a binary value of whether a FAANG company asked the question, a count of how many FAANG companies asked it might be more informative.
 
 **2. Data encoding**
@@ -1883,7 +1883,7 @@ We chose the K-Nearest Neighbors (KNN) algorithm for its simplicity and effectiv
 
 In the case of K-nearest neighbors, the hyperparameter we can tune is the 'k' value to determine the optimal number of neighbors for classification. The way we have approached this has been by building different models with different k values in a range from 1 to 40 and calculating the argmin for its error.
 
-Our result was k=12.
+Our finding was that k=12 produced the best result.
 
 ## Model 2 - Decision Trees
 
@@ -1904,7 +1904,7 @@ We have observed that k-nearest neighbors and decision trees both have similar p
 
 ### Hyperparameter tuning
 
-In the case of neural networks there is a wide range of hyperparameters that can be tuned. In order to fins the best neural networks, the parameters that we have chosen to tune are:
+In the case of neural networks there is a wide range of hyperparameters that can be tuned. In order to find the best neural networks, the parameters that we have chosen to tune are:
 - Number of layers
 - Activation function for all hidden layers
 - Learning rate
@@ -2113,9 +2113,9 @@ By comparing the error/accuracy and precision, recall in training and test data,
 - The model performs not too good in both trainingand test data, we only got accuracy = 0.66/0.59.
 - Overall, the model performs better in training data.
 - The model performs better in class '2', which is medium in "difficulty". This make sense because the observation of medium problems is the most.
-- The model performs stable in precision (around 0.60 in three classes), but performs unstable in recall (high in medium problems, low in other problems.) We believe the reason caused this difference is also the overvation number of different problems.
+- The model performs stable in precision (around 0.60 in three classes), but performs unstable in recall (high in medium problems, low in other problems.)
 
-Next we would show the fitting graph of training and test error under different K values.
+Next we would show the fitting graph of training and test error under different k values.
 
 ### Observations from the Graph (Figure 12)
 
@@ -2124,8 +2124,6 @@ Next we would show the fitting graph of training and test error under different 
 - **Underfitting at High k-values:** Larger 'k' values tend to generalize better to unseen data, reducing test errors but excessively large 'k' can lead to underfitting.
 
 - **Cross-Validation:** The cross-validation error doesn't always grow according to 'k'. This behavior shows the importance of cross-validation in identifying a 'k' that ensures a model that is balanced between known data and unseen data. This pattern shows the delicate balance between avoiding overfitting with lower 'k' values and the risk of underfitting with higher 'k' values, despite the smaller errors.
-
-- **Odd vs. Even k-values:** Odd values of 'k' generally outperform even values, likely due to the nature of KNNs where an even 'k' can lead to equal votes among competing classes.
 
 **Reference used (KNN Introduction):** https://www.codecademy.com/learn/introduction-to-supervised-learning-skill-path/modules/k-nearest-neighbors-skill-path/cheatsheet
 
@@ -2136,13 +2134,14 @@ We have chosen a 'k' of 12 since it shows the most balanced performance between 
 ### Conclusions
 
 Despite our efforts in fine-tuning 'k', the model's performance through iterative cross-validation on the dataset — marked by accuracies of 0.59 and 0.66 — hasn't met our expectations.
-This might be due to the fact that there is a relatively weak correlation between our features and the target variable "difficulty". The exploratory analysis, particularly the heatmap, showed that even the most correlated feature, "acceptance_rate", only has a correlation coefficient of -0.39. This is likely a significant contributor to the model's underwhelming performance.
+This might be due to the fact that there is a relatively weak correlation between our features and the target variable "difficulty". The exploratory analysis, particularly the heatmap, showed that even the most correlated feature, "acceptance_rate", only has a correlation coefficient of -0.39. This is likely a significant contributor to the model's underwhelming performance. Additionally, the disparity between the number of problems of different difficulty levels may be contributing.
 
 **Strategies for Improvement**
 
 Given the model's current limitations, we propose some approaches to improve its accuracy:
 Extended 'k' Range: Broadening the range of 'k' values beyond the initial 1 to 40, we may find a more effective 'k' that could improve the model's performance. However, we need to keep in mind that it's crucial to balance the risk of overfitting with smaller 'k' values against underfitting with larger 'k' values.
 Data Preprocessing Refinement: Revisiting our approach to preprocessing, which is currently centered around MinMax Scaling, could be beneficial. Exploring alternative scaling and standardization techniques could reveal new patterns and correlations that might help the model's performance.
+Oversampling: sampling with replacement to create a training data set with equal number of Easy, Medium, and Hard problems might be worth exploring.
 As we progress to subsequent models, we hope that we can achieve a better performance.
 
 
@@ -2198,7 +2197,7 @@ In general the hypertuned neural network seems to more accurately predict the di
 
 ### Conclusions
 
-Our Neural Network model outperformed our KNN and Decision Tree models, but barely. With accuracies of 68% for testing data and 70% for training data, our model really only has 7% improvement over the previous ones.
+Our Neural Network model outperformed our KNN and Decision Tree models, but barely. With accuracies of 68% for testing data and 70% for training data, our model has 7% improvement over the previous ones.
 
 We also need to acknowledge that Neural Networks are much more opaque than Decision Trees or KNN models. If somebody wants to understand why a problem is labeled easy, medium, or hard our Neural Network is unlikely to provide great insight.
 
@@ -2210,11 +2209,11 @@ We also need to acknowledge that Neural Networks are much more opaque than Decis
 
 In this study, we explored three different machine learning models — K-Nearest Neighbors (KNN), Decision Tree, and Neural Network — to predict the difficulty level of LeetCode problems.
 
-Having analyzed each of the different models, a conclusion that we are not excited to arrive to is that our dataset is not ideal for analysis. We have not been able to obtain a high accuracy in neither of the models, with the maximum accuracy having been obtained with the neural network, with an accuracy of 68% for testing data and 70% for training data.
+Having analyzed each of the different models, a conclusion that we are not excited to arrive to is that our dataset is not ideal for analysis. We have not been able to obtain a high accuracy in neither of the models, with the maximum accuracy having been obtained with the neural network, with an accuracy of 68% for testing data and 70% for training data. Although this accuracy is not as high as we would like, we note that it is better than chance, which in our case would be randomly guessing one of three classes, leading to an accuracy of approximately 33%.
 
 We believe that a reason behind this could be the imbalanced distribution of the data, with the majority of problems falling into the medium difficulty category. This imbalance might have led to skewed model predictions and hindered their ability to accurately classify instances across all difficulty levels.
 
-Looking ahead, we recognize the need for improvements to enhance the accuracy of our predictive models. Implementing the strategies outlined in the discussion section, such as refining data preprocessing techniques and expanding our hyperparameter tuning, holds promise for improving model performance. Additionally, acquiring a more comprehensive dataset with a balanced distribution of problem difficulty could yield more accurate and reliable predictions.
+Looking ahead, we recognize the need for improvements to enhance the accuracy of our predictive models. Implementing the strategies outlined in the discussion section, such as refining data preprocessing techniques, as well as sampling techniques, expanding our hyperparameter tuning, and incorporating natural language processing, hold promise for improving model performance. Additionally, acquiring a more comprehensive dataset with a balanced distribution of problem difficulty could yield more accurate and reliable predictions.
 
 In summary, while our initial findings may not be as promising as hoped, we remain optimistic about the potential for future improvements.
 
@@ -2224,7 +2223,7 @@ In summary, while our initial findings may not be as promising as hoped, we rema
 
 - David Choi: Team Leader : Acted as project leader in most meetings. Worked on data exploration working on pairplots and small correlation matrices. Worked on data preprocessing, dropping the data and one hot encoding related topics. Worked on a model 3 neural network and the hyper parameter tuner. Created the fitting graph. Worked on the final readme file. 
 
-- Isabelle Krochmal: Programmer : Brainstormed potential datasets and projects with team. Attended team meetings, lead one meeting when usual team leader was not available. Performed initial data preprocessing: for example, decided on irrelevant or unusable features to drop, manipulated lists of companies into quantitative data features usable in model. Worked on Milestone 3: KNN. Interpreted results of model and then used them to write explanations for our reasoning of which two models we would create next.
+- Isabelle Krochmal: Programmer: Brainstormed potential datasets and projects with team. Attended team meetings, lead one meeting when usual team leader was not available. Performed initial data preprocessing: for example, decided on irrelevant or unusable features to drop, manipulated lists of companies into quantitative data features usable in model. Worked on Milestone 3: KNN. Researched and reviewed code with team. Interpreted results of model and then used them to write explanations for our reasoning of which two models we would create next.
 
 - Evie Stergiopoulou: Title : Contribution
 
