@@ -2013,17 +2013,7 @@ To understand our model's learning, we also evaluate its performance on the trai
        macro avg       0.67      0.59      0.61      1642
     weighted avg       0.66      0.66      0.64      1642
     
-    
 
-### Comparing Training and Testing Error
-
-By compare the error/accuracy and precision, recall in training and test data, we can see that:
-- The model performs not too good in both trainingand test data, we only got accuracy = 0.66/0.59.
-- Overall, the model performs better in training data.
-- The model performs better in class '2', which is medium in "difficulty". This make sense because the observation of medium problems is the most.
-- The model performs stable in precision (around 0.60 in three classes), but performs unstable in recall (high in medium problems, low in other problems.) We believe the reason caused this difference is also the overvation number of different problems.
-
-Next we would show the fitting graph of training and test error under different K values.
 
 
 ### Fitting Graph and Cross Validation Result
@@ -2032,23 +2022,6 @@ The fitting graph below shows the relationship between the choice of 'k' in KNN 
 ![png](./data/img/output_11_0.png)
 
 *Figure 12. Training, testing and cross validation error based on the value of k for KNN*
-    
-#### **Observations from the Graph**
-
-- **Overfitting at Low k-values:** When 'k' is small (especially at k=1), the model achieves perfect accuracy on the training data, indicative of overfitting. As 'k' increases, the training error rises, and the test error generally decreases which shows a reduction in overfitting.
-
-- **Underfitting at High k-values:** Larger 'k' values tend to generalize better to unseen data, reducing test errors but excessively large 'k' can lead to underfitting.
-
-- **Cross-Validation:** The cross-validation error doesn't always grow according to 'k'. This behavior shows the importance of cross-validation in identifying a 'k' that ensures a model that is balanced between known data and unseen data. This pattern shows the delicate balance between avoiding overfitting with lower 'k' values and the risk of underfitting with higher 'k' values, despite the smaller errors.
-
-- **Odd vs. Even k-values:** Odd values of 'k' generally outperform even values, likely due to the nature of KNNs where an even 'k' can lead to equal votes among competing classes.
-
-**Reference used (KNN Introduction):** https://www.codecademy.com/learn/introduction-to-supervised-learning-skill-path/modules/k-nearest-neighbors-skill-path/cheatsheet
-
-#### **Optimal 'k' Selection**
-
-We have chosen a 'k' of 12 since it shows the most balanced performance between overfitting and underfitting, as evidenced by its superior cross-validation score.
-
 
 
 ## Model 2 Results / Figures
@@ -2065,30 +2038,12 @@ Below, you will be able to find the best model.
 
 *Figure 14. Best model for decision trees*
 
-**Observations**
-When accuracy score = 1, it is overfitting
-
-- **Overfitting at low alpha values:** When ccp alpha is small, indicating less pruning on the decision tree, the training model achieves perfect accuracy, which indicates overfitting.
-
-- **Cost Complexity Pruning:** On the fitting graph, we found out that the cost complexity pruning alpha value that gives us the highest accuracy in the testing dataset is 0.0016001376425733224.
-
-- **Model Comparison:** When compared to the previous models fitting graph it behaves similarly with earlier values of alpha/k overfitting and has a higher error at later values.
-
 ### Decision Tree visualization
 
 
-    
 ![svg](data/img/LeetcodeDataExploration_79_0.svg)
     
 *Figure 15. Visualizaiton of the decision tree model*
-
-**Decision Tree Observation**
-
-We observe that the most useful features for classification are the ones being compared in the top layers of the tree. In the top 3 layers, the only features used are discuss_count, acceptance_rate, and rating. In the lower layers, frequency, acceptance_rate, and many question topics (Hash Map, Union Find, etc) are used.
-
-Looking at the tree as a whole, we find a lot of nodes of class 1, perhaps due to the nature of our encoding putting class 1 between the other classes causing many predictions of class 1. This aligns with about half of the samples being class 1 as well as class 1 having relatively fewer false negatives (precision < recall).
-
-The first decision separates more than half of the class 2 observations from the set along with around a fourth of the class 1 observations and very few class 0 observations. This suggests that the classes do somewhat fall on a spectrum with respect to the selected features (it is easier to separate class 0 and 2 rather than 0 and 1 or 1 and 2). This is supported by the fact that there is only one instance of two sibling nodes being class 0 and 2; every other pair is 0/1 or 1/2.
 
 
 ### Evaluation on Training and Test
@@ -2109,19 +2064,6 @@ The first decision separates more than half of the class 2 observations from the
     
 
 
-
-
-### Comparing Training and Testing Error
-
-Now we conduct a comparative analysis of the model's performance across the training and the testing sets to understand how well the model can generalize beyond the data it was trained on.
-
-- **Performance Overview:** The accuracy scores indicate that the model's performance is moderate, with a training accuracy of 0.75 and testing accuracy of 0.61. This again, has room for improvement in the model's ability to predict unseen data accurately. However, it had slightly better results than the previous model. The model performs better on the training set, as expected.
-
-- **Class-wise Performance:** The model shows better performance for the 'medium' and 'hard' difficulty level than the 'easy' difficulty level. This could be because of having low prevalence of 'easy' difficulty class compared to 'medium' and 'hard' in the dataset.
-
-- **Precision and Recall:** The model’s precision across the 3 classes is relatively stable at around .60. The recall however is not as stable with recall being lower for the easier questions and higher for the medium and harder questions. The features don’t capture the difference between easy and medium questions very well so the model will frequently classify it as a medium question.
-
-
 ## Model 3 Results / Figures
 
 ### Evaluation On Test Set (Neural Networks)
@@ -2139,7 +2081,7 @@ After obtaining out best model, we continue by assessing its performance on the 
 weighted avg       0.68      0.68      0.68       183
 
 
-### Evalutaion On Training Set (Neural Networks)
+### Evaluation On Training Set (Neural Networks)
 
 To understand our model's learning, we also evaluate its performance on the training set to see how well it has captured the underlying patterns of the data.
 
@@ -2153,17 +2095,6 @@ To understand our model's learning, we also evaluate its performance on the trai
    macro avg       0.71      0.67      0.68      1642
 weighted avg       0.71      0.70      0.70      1642
 
-
-### Comparing Training and Testing Error
-
-We can now compare the Training and Testing Performance of our Neural Network and compare them to previous models
-
-- **Training vs Testing:** The training accuracy was 70% and the testing accuracy was 68%. This implies that our model is slightly overfit as the training accuracy is higher than the testing accuracy. The precision and recall of the testing set is also lower than the training set.
-- **Neural Network vs KNN:** When comparing training accuracy our neural network performs about 4% better than our KNN model. When comparing testing accuracy our neural network performs about 9% better. While not a huge difference it is a small improvment.
-- **Neural Network vs Decision Tree:** When comparing training accuracy our neural network performs about 3% worse than our decision tree model. However, when comparing testing accuracy our neural network performs about 7% better. This shows how the decision tree learning model tends to overfit data
-
-In general the hypertuned neural network seems to more accurately predict the difficulty of Leetcode problems. However, there is a tradeoff. The neural network is much less transparent of a model than a decision tree learning model.
-
 ### Fitting Graph and Cross Validation Result
 
 ![png](./data/img/output_nn_error.png)
@@ -2174,7 +2105,35 @@ Our fitting graph is unfortunately very disorganized. This is because parameter 
 
 # Discussion
 
-### Discussion of Model #1: K-Nearest Neighbours
+## Discussion of Model #1: K-Nearest Neighbours
+
+### Comparing Training and Testing Error
+
+By comparing the error/accuracy and precision, recall in training and test data, we can see that:
+- The model performs not too good in both trainingand test data, we only got accuracy = 0.66/0.59.
+- Overall, the model performs better in training data.
+- The model performs better in class '2', which is medium in "difficulty". This make sense because the observation of medium problems is the most.
+- The model performs stable in precision (around 0.60 in three classes), but performs unstable in recall (high in medium problems, low in other problems.) We believe the reason caused this difference is also the overvation number of different problems.
+
+Next we would show the fitting graph of training and test error under different K values.
+
+### Observations from the Graph (Figure 12)
+
+- **Overfitting at Low k-values:** When 'k' is small (especially at k=1), the model achieves perfect accuracy on the training data, indicative of overfitting. As 'k' increases, the training error rises, and the test error generally decreases which shows a reduction in overfitting.
+
+- **Underfitting at High k-values:** Larger 'k' values tend to generalize better to unseen data, reducing test errors but excessively large 'k' can lead to underfitting.
+
+- **Cross-Validation:** The cross-validation error doesn't always grow according to 'k'. This behavior shows the importance of cross-validation in identifying a 'k' that ensures a model that is balanced between known data and unseen data. This pattern shows the delicate balance between avoiding overfitting with lower 'k' values and the risk of underfitting with higher 'k' values, despite the smaller errors.
+
+- **Odd vs. Even k-values:** Odd values of 'k' generally outperform even values, likely due to the nature of KNNs where an even 'k' can lead to equal votes among competing classes.
+
+**Reference used (KNN Introduction):** https://www.codecademy.com/learn/introduction-to-supervised-learning-skill-path/modules/k-nearest-neighbors-skill-path/cheatsheet
+
+### Optimal 'k' Selection
+
+We have chosen a 'k' of 12 since it shows the most balanced performance between overfitting and underfitting, as evidenced by its superior cross-validation score.
+
+### Conclusions
 
 Despite our efforts in fine-tuning 'k', the model's performance through iterative cross-validation on the dataset — marked by accuracies of 0.59 and 0.66 — hasn't met our expectations.
 This might be due to the fact that there is a relatively weak correlation between our features and the target variable "difficulty". The exploratory analysis, particularly the heatmap, showed that even the most correlated feature, "acceptance_rate", only has a correlation coefficient of -0.39. This is likely a significant contributor to the model's underwhelming performance.
@@ -2187,7 +2146,37 @@ Data Preprocessing Refinement: Revisiting our approach to preprocessing, which i
 As we progress to subsequent models, we hope that we can achieve a better performance.
 
 
-### Discussion of Model #2: Decision Tree
+## Discussion of Model #2: Decision Tree
+
+### Observations on hyperparameter tuning (Figure 13 and 14)
+When accuracy score = 1, it is overfitting
+
+- **Overfitting at low alpha values:** When ccp alpha is small, indicating less pruning on the decision tree, the training model achieves perfect accuracy, which indicates overfitting.
+
+- **Cost Complexity Pruning:** On the fitting graph, we found out that the cost complexity pruning alpha value that gives us the highest accuracy in the testing dataset is 0.0016001376425733224.
+
+- **Model Comparison:** When compared to the previous models fitting graph it behaves similarly with earlier values of alpha/k overfitting and has a higher error at later values.
+
+
+### Observations on decision tree (Figure 15)
+
+We observe that the most useful features for classification are the ones being compared in the top layers of the tree. In the top 3 layers, the only features used are discuss_count, acceptance_rate, and rating. In the lower layers, frequency, acceptance_rate, and many question topics (Hash Map, Union Find, etc) are used.
+
+Looking at the tree as a whole, we find a lot of nodes of class 1, perhaps due to the nature of our encoding putting class 1 between the other classes causing many predictions of class 1. This aligns with about half of the samples being class 1 as well as class 1 having relatively fewer false negatives (precision < recall).
+
+The first decision separates more than half of the class 2 observations from the set along with around a fourth of the class 1 observations and very few class 0 observations. This suggests that the classes do somewhat fall on a spectrum with respect to the selected features (it is easier to separate class 0 and 2 rather than 0 and 1 or 1 and 2). This is supported by the fact that there is only one instance of two sibling nodes being class 0 and 2; every other pair is 0/1 or 1/2.
+
+### Comparing Training and Testing Error
+
+Now we conduct a comparative analysis of the model's performance across the training and the testing sets to understand how well the model can generalize beyond the data it was trained on.
+
+- **Performance Overview:** The accuracy scores indicate that the model's performance is moderate, with a training accuracy of 0.75 and testing accuracy of 0.61. This again, has room for improvement in the model's ability to predict unseen data accurately. However, it had slightly better results than the previous model. The model performs better on the training set, as expected.
+
+- **Class-wise Performance:** The model shows better performance for the 'medium' and 'hard' difficulty level than the 'easy' difficulty level. This could be because of having low prevalence of 'easy' difficulty class compared to 'medium' and 'hard' in the dataset.
+
+- **Precision and Recall:** The model’s precision across the 3 classes is relatively stable at around .60. The recall however is not as stable with recall being lower for the easier questions and higher for the medium and harder questions. The features don’t capture the difference between easy and medium questions very well so the model will frequently classify it as a medium question.
+
+### Conclusions
 
 To conclude our second model, our decision tree performed mostly the same as the first model, and while having high recall on easy problems is still difficult, the recall is more stable for medium and difficult problems. 
 
@@ -2195,7 +2184,19 @@ To conclude our second model, our decision tree performed mostly the same as the
 
 Some strategies that we have not implemented but would improve the performance of the decision tree are bagging and boosting. This model revealed the most important features, and getting more accurate data on discussion_count can be useful along with possible feature expansion
 
-### Discussion of Model #3: Neural Network
+## Discussion of Model #3: Neural Network
+
+### Comparing Training and Testing Error
+
+We can now compare the Training and Testing Performance of our Neural Network and compare them to previous models
+
+- **Training vs Testing:** The training accuracy was 70% and the testing accuracy was 68%. This implies that our model is slightly overfit as the training accuracy is higher than the testing accuracy. The precision and recall of the testing set is also lower than the training set.
+- **Neural Network vs KNN:** When comparing training accuracy our neural network performs about 4% better than our KNN model. When comparing testing accuracy our neural network performs about 9% better. While not a huge difference it is a small improvment.
+- **Neural Network vs Decision Tree:** When comparing training accuracy our neural network performs about 3% worse than our decision tree model. However, when comparing testing accuracy our neural network performs about 7% better. This shows how the decision tree learning model tends to overfit data
+
+In general the hypertuned neural network seems to more accurately predict the difficulty of Leetcode problems. However, there is a tradeoff. The neural network is much less transparent of a model than a decision tree learning model.
+
+### Conclusions
 
 Our Neural Network model outperformed our KNN and Decision Tree models, but barely. With accuracies of 68% for testing data and 70% for training data, our model really only has 7% improvement over the previous ones.
 
