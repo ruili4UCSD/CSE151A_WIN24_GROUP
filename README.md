@@ -2219,4 +2219,26 @@ In summary, while our initial findings may not be as promising as hoped, we rema
 
 # Collaboration
 
+- Ana Maria Sampedro Barrera: Writer : Brainstormed potential datasets and projects with the team. Attended all team meetings. Worked on describing the data for milestone #1 as well as writing and reorganizing the contents for the final report.
+
+- David Choi: Team Leader : Acted as project leader in most meetings. Worked on data exploration working on pairplots and small correlation matrices. Worked on data preprocessing, dropping the data and one hot encoding related topics. Worked on a model 3 neural network and the hyper parameter tuner. Created the fitting graph. Worked on the final readme file. 
+
+- Isabelle Krochmal: Programmer : Brainstormed potential datasets and projects with team. Attended team meetings, lead one meeting when usual team leader was not available. Performed initial data preprocessing: for example, decided on irrelevant or unusable features to drop, manipulated lists of companies into quantitative data features usable in model. Worked on Milestone 3: KNN. Interpreted results of model and then used them to write explanations for our reasoning of which two models we would create next.
+
+- Evie Stergiopoulou: Title : Contribution
+
+- James Rey Macasa: Programmer : Did data visualization by programming the heatmap to show the correlation between different features of data. Attended most meetings, helping brainstorm potential models to use and what datasets to work on. Worked on milestone 3 model: KNN. Helped review model code and results and asked TAs for advice for model as well as wrote potential improvements that could be made for the model.
+
+- Rui Li: Programmer : In milestone1: wrote temp abstract. In milestone2: did github initialization, participated in data exploration, notebook reorganization, writing readme. In milestone3: train and evaluate KNN model, record fitting graph, draft conclusions, edit readme.
+
+- Jinwoong Huh: Programmer : Did initial data preprocessing and one-hot encoding of the data. Worked on coding the decision tree model, as well as the decision tree model and fitting graph visualization. Collaborated with teammates to do the observation writeup and readme of the DT model. 
+
+- Andrew Jia: Writer : Contributed to early feature selection. Worked on model 2 (decision tree), mostly writing, formatting, changing to readme from ipynb. Includes writing observations from decision tree visualization and conclusion of milestone 4. 
+
+- Ojasvi Tewari : Programmer : Contributed to discussion of possible datasets, helped with the abstracts. Worked on Model 3 by training the hypertuned model and setting up the code and training the Kfold hypertuned model.
+
+- Lucas Xu : Programmer : Contribution Worked on model 2 decision tree coded with team. Meet with team and discussed project ideas. Coded decision tree training also did writeups for decision tree conclusion and classification report.
+
+
+
 🔗 [Current Notebook](./ipynb/LeetcodeDataExploration.ipynb)
